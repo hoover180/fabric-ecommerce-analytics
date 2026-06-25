@@ -60,7 +60,7 @@ Full medallion architecture (Bronze → Silver → Gold) on Microsoft Fabric, en
 
 ## Progress Tracker
 
-- [ ] Phase 0 — Setup, scaffold, business case, data dictionary
+- [x] Phase 0 — Setup, scaffold, business case, data dictionary
 - [ ] Phase 1 — Bronze layer (incremental ingestion, pipeline logging, schema drift)
 - [ ] Phase 2 — Silver layer (Dataflows Gen2, PySpark validation)
 - [ ] Phase 3 — Gold layer (T-SQL star schema, Kimball modeling)
