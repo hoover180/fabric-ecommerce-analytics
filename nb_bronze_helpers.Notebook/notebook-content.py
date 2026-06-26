@@ -16,11 +16,9 @@
 import uuid
 from datetime import datetime, date
 from pyspark.sql.functions import lit
-from delta.tables import DeltaTable
 
 
 def get_watermark(table_name: str) -> date:
-    """Read the current watermark date for a given table."""
     df = spark.sql(f"SELECT last_loaded_date FROM dbo.watermark_table WHERE table_name = '{table_name}'")
     row = df.collect()
     if not row:
@@ -29,7 +27,6 @@ def get_watermark(table_name: str) -> date:
 
 
 def update_watermark(table_name: str, new_date: date, run_id: str):
-    """Update the watermark date for a given table."""
     spark.sql(f"""
         UPDATE dbo.watermark_table
         SET last_loaded_date = DATE'{new_date}',
@@ -40,7 +37,6 @@ def update_watermark(table_name: str, new_date: date, run_id: str):
 
 def log_pipeline_run(run_id: str, table_name: str, source_file: str,
                      rows_loaded: int, status: str, error_message: str = None):
-    """Append a row to pipeline_run_log."""
     error_val = f"'{error_message}'" if error_message else "NULL"
     spark.sql(f"""
         INSERT INTO dbo.pipeline_run_log VALUES (
@@ -52,6 +48,16 @@ def log_pipeline_run(run_id: str, table_name: str, source_file: str,
             '{status}',
             {error_val}
         )
+    """)
+
+
+def register_delta_table(table_name: str, delta_path: str):
+    # Registers the Delta table under dbo so it appears cleanly in the Lakehouse explorer
+    path = spark.sql(f"DESCRIBE DETAIL delta.`{delta_path}`").collect()[0]["location"]
+    spark.sql(f"""
+        CREATE TABLE IF NOT EXISTS dbo.{table_name}
+        USING DELTA
+        LOCATION '{path}'
     """)
 
 
