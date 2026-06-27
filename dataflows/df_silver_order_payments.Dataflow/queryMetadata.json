@@ -1,0 +1,29 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "df_silver_order_payments",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "Bronze order_payments": {
+      "queryId": "2a4156f3-3c39-49c4-85ac-0c0be85ab93a",
+      "queryName": "Bronze order_payments",
+      "loadEnabled": false
+    },
+    "Bronze order_payments_DataDestination": {
+      "queryId": "ee241955-bf14-4e34-803f-be48efd01866",
+      "queryName": "Bronze order_payments_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"96245c3f-64b0-4a34-b3e4-c6ba52c14c69\",\"DatasourceId\":\"f140f0c1-f860-4d07-9556-b1e45c4708b3\"}"
+    }
+  ]
+}

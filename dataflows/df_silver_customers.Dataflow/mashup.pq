@@ -7,9 +7,10 @@ shared #"Bronze customers" = let
   #"Navigation 1" = Navigation{[lakehouseId = "711ad228-eb05-4584-b246-c30b0c4209a8"]}[Data],
   #"Navigation 2" = #"Navigation 1"{[Id = "Bronze.customers", ItemKind = "Table"]}[Data],
   #"Uppercased text" = Table.TransformColumns(#"Navigation 2", {{"customer_state", each Text.Upper(_), type nullable text}}),
-  #"Added custom" = Table.TransformColumnTypes(Table.AddColumn(#"Uppercased text", "has_zip", each if [customer_zip_code_prefix] = null then false else true), {{"has_zip", type logical}})
+  #"Added custom" = Table.TransformColumnTypes(Table.AddColumn(#"Uppercased text", "has_zip", each if [customer_zip_code_prefix] = null then false else true), {{"has_zip", type logical}}),
+  #"Changed column type" = Table.TransformColumnTypes(#"Added custom", {{"customer_zip_code_prefix", Int64.Type}})
 in
-  #"Added custom";
+  #"Changed column type";
 shared #"Bronze customers_DataDestination" = let
   Pattern = Lakehouse.Contents([CreateNavigationProperties = false, EnableFolding = false, HierarchicalNavigation = true, EnableVorder = true, OutputMetadataRefresh = true]),
   Navigation_1 = Pattern{[workspaceId = "."]}[Data],

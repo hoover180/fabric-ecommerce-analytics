@@ -5,9 +5,10 @@ shared #"Bronze order_items" = let
   Source = Lakehouse.Contents(null),
   Navigation = Source{[workspaceId = "3495450c-33ef-49d4-8a7f-28b3e585e76f"]}[Data],
   #"Navigation 1" = Navigation{[lakehouseId = "711ad228-eb05-4584-b246-c30b0c4209a8"]}[Data],
-  #"Navigation 2" = #"Navigation 1"{[Id = "Bronze.order_items", ItemKind = "Table"]}[Data]
+  #"Navigation 2" = #"Navigation 1"{[Id = "Bronze.order_items", ItemKind = "Table"]}[Data],
+  #"Changed column type" = Table.TransformColumnTypes(#"Navigation 2", {{"price", type number}, {"freight_value", type number}, {"order_item_id", Int64.Type}, {"shipping_limit_date", type datetime}})
 in
-  #"Navigation 2";
+  #"Changed column type";
 shared #"Bronze order_items_DataDestination" = let
   Pattern = Lakehouse.Contents([CreateNavigationProperties = false, EnableFolding = false, HierarchicalNavigation = true, EnableVorder = true, OutputMetadataRefresh = true]),
   Navigation_1 = Pattern{[workspaceId = "3495450c-33ef-49d4-8a7f-28b3e585e76f"]}[Data],
