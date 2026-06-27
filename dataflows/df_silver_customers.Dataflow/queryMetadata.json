@@ -1,0 +1,29 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "df_silver_customers",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "Bronze customers": {
+      "queryId": "c0981d72-24e1-4254-afcd-7d607a4cf883",
+      "queryName": "Bronze customers",
+      "loadEnabled": false
+    },
+    "Bronze customers_DataDestination": {
+      "queryId": "64126e80-4e6e-479a-af1b-42e17e37d92e",
+      "queryName": "Bronze customers_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"96245c3f-64b0-4a34-b3e4-c6ba52c14c69\",\"DatasourceId\":\"f140f0c1-f860-4d07-9556-b1e45c4708b3\"}"
+    }
+  ]
+}

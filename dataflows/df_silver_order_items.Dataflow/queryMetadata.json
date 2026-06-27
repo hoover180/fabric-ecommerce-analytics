@@ -1,0 +1,29 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "df_silver_order_items",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "Bronze order_items": {
+      "queryId": "d1c0a179-6fe6-4775-8385-836501b87a7a",
+      "queryName": "Bronze order_items",
+      "loadEnabled": false
+    },
+    "Bronze order_items_DataDestination": {
+      "queryId": "1b394980-bc25-4447-9e3a-63064501ee6c",
+      "queryName": "Bronze order_items_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"96245c3f-64b0-4a34-b3e4-c6ba52c14c69\",\"DatasourceId\":\"f140f0c1-f860-4d07-9556-b1e45c4708b3\"}"
+    }
+  ]
+}
