@@ -123,5 +123,23 @@ _These patterns are implemented to demonstrate production readiness — designed
 
 ---
 
+## 9. dim_customers Grain and Deduplication
+
+**Decision:** Deduplicate to `customer_unique_id` grain at Gold load via `ROW_NUMBER()`
+
+**Context:** `Silver.customers` grain is `customer_id` (order-scoped per Olist schema) — one row per order, not per person. The same `customer_unique_id` can appear multiple times with slightly different `customer_city` values due to data entry inconsistency in the source data.
+
+**Why deduplication belongs at Gold, not Silver:**
+
+- Silver correctly preserves the source grain (`customer_id`) — flattening to `customer_unique_id` at Silver would lose the order-to-customer mapping needed for referential integrity checks
+- `dim_customers` requires person-scoped grain for correct DAX measure behavior — duplicate `customer_unique_id` rows in a dimension cause fan-out and double-counting in fact table joins
+- The dimensional grain decision is a Gold-layer concern; Silver is the conforming layer, not the modeling layer
+
+**Implementation:** `ROW_NUMBER() OVER (PARTITION BY customer_unique_id ORDER BY customer_id DESC)` selects the most recent record as canonical customer attributes. `WHERE rn = 1` enforces exactly one row per unique customer.
+
+**Result:** 96,096 unique customers (vs 99,441 rows in `Silver.customers`)
+
+---
+
 _Author: Michael Hoover | github.com/hoover180_  
-_Last updated: [6/26/2026]_
+_Last updated: [6/28/2026]_
