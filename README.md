@@ -54,7 +54,7 @@ Full medallion architecture (Bronze → Silver → Gold) on Microsoft Fabric, en
 | Power BI                        | Final reporting layer                     | PL-300            |
 | GitHub Actions                  | CI/CD — SQL linting                       | —                 |
 
-**Certifications:** PL-300 [x] Passed · DP-600 [x] Passed · DP-700 [x] Passed
+**Certifications:** PL-300 ✅ Passed · DP-600 ✅ Passed · DP-700 ✅ Passed
 
 ---
 
@@ -63,7 +63,7 @@ Full medallion architecture (Bronze → Silver → Gold) on Microsoft Fabric, en
 - [x] Phase 0 — Setup, scaffold, business case, data dictionary
 - [x] Phase 1 — Bronze layer (incremental ingestion, pipeline logging, schema drift)
 - [x] Phase 2 — Silver layer (Dataflows Gen2, PySpark validation)
-- [ ] Phase 3 — Gold layer (T-SQL star schema, Kimball modeling)
+- [x] Phase 3 — Gold layer (T-SQL star schema, Kimball modeling)
 - [ ] Phase 4 — Data quality validation, GitHub Actions CI
 - [ ] Phase 5 — Semantic Model, Direct Lake, DAX library
 - [ ] Phase 6 — Power BI report (3 pages)
