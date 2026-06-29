@@ -152,12 +152,15 @@ _No action taken — both are known source data characteristics, not pipeline er
 
 ---
 
-**`val_revenue.sql` methodology:** Revenue reconciliation deduplicates
-`fact_orders.payment_value` to order level before summing (`SELECT DISTINCT 
-order_id, payment_value`) to prevent fan-out across multi-item orders. Silver
-baseline scoped to orders with matching `order_items` rows via `EXISTS` — 774
-orders in `Silver.order_payments` have no items and are legitimately excluded
-from `fact_orders`. Actual variance: 0%.
+## 11. Revenue Reconciliation Methodology
+
+**Decision:** Deduplicate `fact_orders.payment_value` to order level before summing in revenue validation and DAX measures.
+
+**Why:** `fact_orders` is stored at order-item grain while `payment_value` is an order-level attribute. Summing `payment_value` directly from `fact_orders` fans out the payment across every item in the order — a $100 order with 3 items would sum to $300. Deduplicating via `SELECT DISTINCT order_id, payment_value` before summing restores order-level accuracy.
+
+**Validation scope:** Silver baseline in `val_revenue.sql` is scoped to orders with matching `order_items` rows via `EXISTS` — 774 orders in `Silver.order_payments` have no items and are legitimately excluded from `fact_orders` since the fact grain is order-item. Actual variance: 0%.
+
+**DAX implication:** `Total Revenue` measure must account for this — use `SUMX` with `DISTINCT` or aggregate at order level to avoid double-counting in the semantic model.
 
 ---
 
