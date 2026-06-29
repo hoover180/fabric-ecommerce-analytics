@@ -152,5 +152,14 @@ _No action taken — both are known source data characteristics, not pipeline er
 
 ---
 
+**`val_revenue.sql` methodology:** Revenue reconciliation deduplicates
+`fact_orders.payment_value` to order level before summing (`SELECT DISTINCT 
+order_id, payment_value`) to prevent fan-out across multi-item orders. Silver
+baseline scoped to orders with matching `order_items` rows via `EXISTS` — 774
+orders in `Silver.order_payments` have no items and are legitimately excluded
+from `fact_orders`. Actual variance: 0%.
+
+---
+
 _Author: Michael Hoover | github.com/hoover180_  
 _Last updated: [6/28/2026]_
