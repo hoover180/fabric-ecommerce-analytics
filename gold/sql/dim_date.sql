@@ -7,6 +7,8 @@
 -- Author: Michael Hoover | github.com/hoover180
 -- =============================================================
 
+DROP TABLE IF EXISTS dbo.dim_date;
+
 CREATE TABLE dbo.dim_date (
     date_key        INTEGER         NOT NULL,
     full_date       DATE            NOT NULL,
