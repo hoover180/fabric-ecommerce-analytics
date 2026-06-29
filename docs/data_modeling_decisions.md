@@ -141,5 +141,16 @@ _These patterns are implemented to demonstrate production readiness — designed
 
 ---
 
+## 10. Known Null Values in Gold Layer
+
+| Table          | Column                     | Null Count | Disposition                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| -------------- | -------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `dim_products` | `product_category_english` | 623        | Tolerated — source data gap in Olist dataset. Products exist in `order_items` without a category assignment. Nulls propagate to `fact_orders` and are excluded from category-level DAX filters naturally.                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `fact_orders`  | `review_score`             | 5,556      | Tolerated — fully investigated and confirmed as legitimate source data gaps, not pipeline errors. Breakdown: 4,562 orders have no review row in `Silver.order_reviews` (customers never submitted a review); remaining ~994 orders had reviews that failed Silver validity check (`review_score_valid = 0`). Confirmed via query: 0 orders with a valid review row have a null score in `fact_orders`. DAX measures using `review_score` naturally exclude nulls — averages and distributions are unaffected. Excluding these rows would corrupt revenue and order count metrics since the fact grain is order item, not review. |
+
+_No action taken — both are known source data characteristics, not pipeline errors._
+
+---
+
 _Author: Michael Hoover | github.com/hoover180_  
 _Last updated: [6/28/2026]_
