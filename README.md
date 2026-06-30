@@ -1,5 +1,7 @@
 # E-Commerce Delivery Analytics Platform
 
+[![SQL Lint](https://github.com/hoover180/fabric-ecommerce-analytics/actions/workflows/sql_lint.yml/badge.svg)](https://github.com/hoover180/fabric-ecommerce-analytics/actions/workflows/sql_lint.yml)
+
 > **Business Problem:**
 >
 > What delivery and seller factors drive customer dissatisfaction in a Brazilian e-commerce marketplace?
