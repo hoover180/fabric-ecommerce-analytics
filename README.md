@@ -66,7 +66,7 @@ Full medallion architecture (Bronze → Silver → Gold) on Microsoft Fabric, en
 - [x] Phase 1 — Bronze layer (incremental ingestion, pipeline logging, schema drift)
 - [x] Phase 2 — Silver layer (Dataflows Gen2, PySpark validation)
 - [x] Phase 3 — Gold layer (T-SQL star schema, Kimball modeling)
-- [ ] Phase 4 — Data quality validation, GitHub Actions CI
+- [x] Phase 4 — CI/CD & Deployment Documentation
 - [ ] Phase 5 — Semantic Model, Direct Lake, DAX library
 - [ ] Phase 6 — Power BI report (3 pages)
 - [ ] Phase 7 — Export, README final, executive memo, publish
