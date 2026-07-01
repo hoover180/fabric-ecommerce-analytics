@@ -164,5 +164,27 @@ _No action taken — both are known source data characteristics, not pipeline er
 
 ---
 
+## 12. Row-Level Security Design
+
+Two RLS roles implemented on the semantic model:
+
+- **seller_rls** — filters `dim_sellers` by `[seller_state] = USERPRINCIPALNAME()`.
+  In production, assigned to seller account managers via Azure AD security groups,
+  restricting each manager to their state's seller data only.
+
+- **region_rls** — filters `dim_customers` by `[customer_state] = USERPRINCIPALNAME()`.
+  In production, assigned to regional operations teams to scope customer and
+  delivery data to their geography.
+
+Both roles use single-direction filter propagation — the dimension filter cascades
+down to fact_orders automatically through the existing relationships, so no
+additional filter on the fact table is required.
+
+Both roles are simulated in this portfolio environment. Production implementation
+would map Azure AD group membership to role assignment in the Power BI service
+rather than using email address as a state code proxy.
+
+---
+
 _Author: Michael Hoover | github.com/hoover180_  
 _Last updated: [6/28/2026]_
