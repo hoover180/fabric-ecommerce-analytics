@@ -60,6 +60,77 @@ Full medallion architecture (Bronze → Silver → Gold) on Microsoft Fabric, en
 
 ---
 
+## DAX Measures Highlights
+
+Five measures that demonstrate semantic modeling depth. Full library: [`/docs/dax_measures_library.md`](docs/dax_measures_library.md)
+
+**Total Revenue** — Solves the fan-out problem on an item-grain fact table. `payment_value` is order-level; summing directly overcounts on multi-item orders. Deduplicates at `order_id` before aggregating:
+
+```dax
+Total Revenue =
+SUMX(
+    SUMMARIZE(fact_orders, fact_orders[order_id], "pv", MAX(fact_orders[payment_value])),
+    [pv]
+)
+```
+
+Validated against `val_revenue.sql` — both return **$15,846,280.17**.
+
+---
+
+**On-Time Delivery Rate** — Uses `CALCULATE` with a boolean column filter rather than `FILTER(fact_orders, ...)` to leverage VertiPaq column indexes. More efficient in Direct Lake mode at scale:
+
+```dax
+On-Time Delivery Rate =
+DIVIDE(
+    CALCULATE(COUNTROWS(fact_orders), fact_orders[is_late] = 0),
+    COUNTROWS(fact_orders)
+)
+```
+
+---
+
+**Review Score Rolling 3M** — Time intelligence with `DATESINPERIOD`. The 3-month window shifts dynamically with the filter context — useful for trend analysis on the Delivery Performance page:
+
+```dax
+Review Score Rolling 3M =
+CALCULATE(
+    [Avg Review Score],
+    DATESINPERIOD(dim_date[full_date], LASTDATE(dim_date[full_date]), -3, MONTH)
+)
+```
+
+---
+
+**Repeat Customer Rate** — Two-pass aggregation using nested `SUMMARIZE` + `FILTER`. Builds a per-customer order count, isolates customers with 2+ orders, divides by total distinct customers:
+
+```dax
+Repeat Customer Rate =
+DIVIDE(
+    COUNTROWS(
+        FILTER(
+            SUMMARIZE(fact_orders, fact_orders[customer_key], "cnt", COUNTROWS(fact_orders)),
+            [cnt] >= 2
+        )
+    ),
+    DISTINCTCOUNT(fact_orders[customer_key])
+)
+```
+
+---
+
+**YoY Revenue %** — Year-over-year revenue comparison using `SAMEPERIODLASTYEAR`. Requires `dim_date` marked as a Date Table on `full_date`:
+
+```dax
+YoY Revenue % =
+DIVIDE(
+    [YoY Revenue],
+    CALCULATE([Total Revenue], SAMEPERIODLASTYEAR(dim_date[full_date]))
+)
+```
+
+---
+
 ## Progress Tracker
 
 - [x] Phase 0 — Setup, scaffold, business case, data dictionary
@@ -67,7 +138,7 @@ Full medallion architecture (Bronze → Silver → Gold) on Microsoft Fabric, en
 - [x] Phase 2 — Silver layer (Dataflows Gen2, PySpark validation)
 - [x] Phase 3 — Gold layer (T-SQL star schema, Kimball modeling)
 - [x] Phase 4 — CI/CD & Deployment Documentation
-- [ ] Phase 5 — Semantic Model, Direct Lake, DAX library
+- [x] Phase 5 — Semantic Model, Direct Lake, DAX library
 - [ ] Phase 6 — Power BI report (3 pages)
 - [ ] Phase 7 — Export, README final, executive memo, publish
 
