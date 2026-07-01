@@ -1,0 +1,192 @@
+table dim_date
+	lineageTag: db688b44-a469-4c6c-a586-6575da226c0e
+	sourceLineageTag: [dbo].[dim_date]
+	dataCategory: Time
+
+	column date_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: cc531946-1e07-497a-9cbc-c34418739435
+		sourceLineageTag: date_key
+		summarizeBy: none
+		sourceColumn: date_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column full_date
+		dataType: dateTime
+		isKey
+		formatString: General Date
+		lineageTag: c4b2bb6f-3715-413a-9a76-a69e03635d0a
+		sourceLineageTag: full_date
+		summarizeBy: none
+		sourceColumn: full_date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 8a7ffe16-c27d-496e-b9c3-6bf0c3e1ada7
+		sourceLineageTag: year
+		summarizeBy: none
+		sourceColumn: year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 69ac9fb9-d2aa-4e76-bbf9-80a244f1a5c9
+		sourceLineageTag: quarter
+		summarizeBy: none
+		sourceColumn: quarter
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter_name
+		dataType: string
+		lineageTag: 78da6a5f-7788-40f0-a64b-ce1d4218815a
+		sourceLineageTag: quarter_name
+		summarizeBy: none
+		sourceColumn: quarter_name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: feef576d-790a-480e-9c86-4ce59507553d
+		sourceLineageTag: month
+		summarizeBy: none
+		sourceColumn: month
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name
+		dataType: string
+		lineageTag: 530e142e-9bae-4ded-9b33-7a7fb9734a9e
+		sourceLineageTag: month_name
+		summarizeBy: none
+		sourceColumn: month_name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_year
+		dataType: string
+		lineageTag: 1082fe4a-8f50-4ce5-b1c6-9c3fc59af8ac
+		sourceLineageTag: month_year
+		summarizeBy: none
+		sourceColumn: month_year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column week_of_year
+		dataType: int64
+		formatString: 0
+		lineageTag: 606f7375-45c3-4f8f-a90d-45fa25eb5d3f
+		sourceLineageTag: week_of_year
+		summarizeBy: none
+		sourceColumn: week_of_year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_month
+		dataType: int64
+		formatString: 0
+		lineageTag: 3d722d16-8332-43c4-baf2-b7a6f933ce4d
+		sourceLineageTag: day_of_month
+		summarizeBy: none
+		sourceColumn: day_of_month
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_week
+		dataType: int64
+		formatString: 0
+		lineageTag: 84e72bed-6d8e-4a63-88c5-fb3f49c5fa8c
+		sourceLineageTag: day_of_week
+		summarizeBy: none
+		sourceColumn: day_of_week
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_name
+		dataType: string
+		lineageTag: bf60f1ed-160f-44f0-8f5d-3395c806ed8c
+		sourceLineageTag: day_name
+		summarizeBy: none
+		sourceColumn: day_name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_weekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d08d9efe-d955-4f44-9fb1-5ad28b0c0cb0
+		sourceLineageTag: is_weekend
+		summarizeBy: none
+		sourceColumn: is_weekend
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_month_end
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: f3f47a37-60f5-4ef7-9c01-8dd71f902ddb
+		sourceLineageTag: is_month_end
+		summarizeBy: none
+		sourceColumn: is_month_end
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_offset
+		dataType: int64
+		formatString: 0
+		lineageTag: 1eec41c7-de71-4a8e-98cb-6883818f8293
+		sourceLineageTag: year_offset
+		summarizeBy: none
+		sourceColumn: year_offset
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_date = entity
+		mode: directLake
+		source
+			entityName: dim_date
+			schemaName: dbo
+			expressionSource: 'DirectLake - ecommerce_warehouse'
+
+	changedProperty = IsHidden
+

@@ -1,0 +1,72 @@
+table dim_customers
+	lineageTag: e8d5e478-7c24-4788-9b2d-645670b262a5
+	sourceLineageTag: [dbo].[dim_customers]
+
+	column customer_key
+		dataType: string
+		isHidden
+		lineageTag: f96b1944-fb7a-4f2f-a242-148bde48cb1c
+		sourceLineageTag: customer_key
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_unique_id
+		dataType: string
+		lineageTag: d2a7e415-f75b-4145-9e3f-e9fbef027c1d
+		sourceLineageTag: customer_unique_id
+		summarizeBy: none
+		sourceColumn: customer_unique_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_city
+		dataType: string
+		lineageTag: 29e8c426-e341-40c5-8843-720e1f0f341d
+		sourceLineageTag: customer_city
+		summarizeBy: none
+		sourceColumn: customer_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_state
+		dataType: string
+		lineageTag: 451ea3ce-42ad-4b2e-9c6e-4f4c02a40d2f
+		sourceLineageTag: customer_state
+		summarizeBy: none
+		sourceColumn: customer_state
+
+		annotation SummarizationSetBy = Automatic
+
+	column geolocation_lat
+		dataType: double
+		lineageTag: 9e256af6-c5dc-49f4-aa3b-fd394151168d
+		sourceLineageTag: geolocation_lat
+		summarizeBy: none
+		sourceColumn: geolocation_lat
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column geolocation_lng
+		dataType: double
+		lineageTag: cfc77905-f8d4-4bc4-8c2d-4120c8103f98
+		sourceLineageTag: geolocation_lng
+		summarizeBy: none
+		sourceColumn: geolocation_lng
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition dim_customers = entity
+		mode: directLake
+		source
+			entityName: dim_customers
+			schemaName: dbo
+			expressionSource: 'DirectLake - ecommerce_warehouse'
+

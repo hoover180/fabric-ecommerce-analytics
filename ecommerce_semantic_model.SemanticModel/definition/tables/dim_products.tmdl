@@ -1,0 +1,84 @@
+table dim_products
+	lineageTag: eded8687-a2b9-4321-9e8f-ffedd5343ffa
+	sourceLineageTag: [dbo].[dim_products]
+
+	column product_key
+		dataType: string
+		isHidden
+		lineageTag: 0ddf99ea-a1f4-440a-aae9-1b4295345dee
+		sourceLineageTag: product_key
+		summarizeBy: none
+		sourceColumn: product_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: string
+		isHidden
+		lineageTag: 15f74852-a62a-4c5a-a74f-7f8d94eea916
+		sourceLineageTag: product_id
+		summarizeBy: none
+		sourceColumn: product_id
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_category_english
+		dataType: string
+		lineageTag: cf3ef2b2-2d18-4c36-b8ef-0628ac826e5b
+		sourceLineageTag: product_category_english
+		summarizeBy: none
+		sourceColumn: product_category_english
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_weight_g
+		dataType: int64
+		formatString: 0
+		lineageTag: a8692139-436a-4df3-b50f-b1dd32c6cb7d
+		sourceLineageTag: product_weight_g
+		summarizeBy: none
+		sourceColumn: product_weight_g
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_length_cm
+		dataType: int64
+		formatString: 0
+		lineageTag: cffa9739-90d8-4f09-aea4-2971c35c6c17
+		sourceLineageTag: product_length_cm
+		summarizeBy: none
+		sourceColumn: product_length_cm
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_height_cm
+		dataType: int64
+		formatString: 0
+		lineageTag: 71bf6268-59f0-455a-9d7c-57918a673d1a
+		sourceLineageTag: product_height_cm
+		summarizeBy: none
+		sourceColumn: product_height_cm
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_width_cm
+		dataType: int64
+		formatString: 0
+		lineageTag: 49b0521c-b4d6-4536-b55a-2d5e842c5111
+		sourceLineageTag: product_width_cm
+		summarizeBy: none
+		sourceColumn: product_width_cm
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_products = entity
+		mode: directLake
+		source
+			entityName: dim_products
+			schemaName: dbo
+			expressionSource: 'DirectLake - ecommerce_warehouse'
+

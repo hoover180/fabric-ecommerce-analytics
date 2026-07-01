@@ -1,0 +1,209 @@
+table fact_orders
+	lineageTag: 6e20def6-7abf-4056-8398-134d29a2bc69
+	sourceLineageTag: [dbo].[fact_orders]
+
+	column order_item_key
+		dataType: string
+		lineageTag: 9bc2a34b-e636-4509-a2ce-740fcd9cb17c
+		sourceLineageTag: order_item_key
+		summarizeBy: none
+		sourceColumn: order_item_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_id
+		dataType: string
+		lineageTag: 9bf5b8c7-7226-4f57-8208-6cfb49479a50
+		sourceLineageTag: order_id
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_item_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 931fcfb6-8e29-4b05-a94f-00b1ef68c43d
+		sourceLineageTag: order_item_id
+		summarizeBy: sum
+		sourceColumn: order_item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_key
+		dataType: string
+		isHidden
+		lineageTag: 28fde340-be89-4a82-994f-54c935eefe5c
+		sourceLineageTag: customer_key
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column seller_key
+		dataType: string
+		isHidden
+		lineageTag: 393abded-17ad-435a-9256-a06bb27c9d2b
+		sourceLineageTag: seller_key
+		summarizeBy: none
+		sourceColumn: seller_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_key
+		dataType: string
+		isHidden
+		lineageTag: 2fa0afbe-6812-4af6-992c-985e0e72c91a
+		sourceLineageTag: product_key
+		summarizeBy: none
+		sourceColumn: product_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_date_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ae86dbee-e948-4f44-a4fa-ed26616fe7bb
+		sourceLineageTag: order_date_key
+		summarizeBy: none
+		sourceColumn: order_date_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_date_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 324011f9-d260-4f96-ac27-c3cc785bf25e
+		sourceLineageTag: delivery_date_key
+		summarizeBy: sum
+		sourceColumn: delivery_date_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column estimated_delivery_date_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: cc8ad6f8-36a0-4d5c-a340-91d6a086ccb1
+		sourceLineageTag: estimated_delivery_date_key
+		summarizeBy: sum
+		sourceColumn: estimated_delivery_date_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column price
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: b2012f42-189d-4e20-9ffc-9776f52f45e6
+		sourceLineageTag: price
+		summarizeBy: sum
+		sourceColumn: price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column freight_value
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: b9e8802b-d6a8-4197-8a83-bbadc193016d
+		sourceLineageTag: freight_value
+		summarizeBy: sum
+		sourceColumn: freight_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column payment_value
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 3685250b-590a-4444-8a9e-9a5d849bae40
+		sourceLineageTag: payment_value
+		summarizeBy: sum
+		sourceColumn: payment_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column review_score
+		dataType: int64
+		formatString: 0
+		lineageTag: 61ce3b71-2168-4ef2-a82d-e0124d186dd6
+		sourceLineageTag: review_score
+		summarizeBy: sum
+		sourceColumn: review_score
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_days
+		dataType: int64
+		formatString: 0
+		lineageTag: 9fac9b94-3523-40dd-874a-a724fbbdc40b
+		sourceLineageTag: delivery_days
+		summarizeBy: sum
+		sourceColumn: delivery_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_late
+		dataType: int64
+		formatString: 0
+		lineageTag: 20a2ec6b-a502-4266-8811-5637d2a5f6e8
+		sourceLineageTag: days_late
+		summarizeBy: sum
+		sourceColumn: days_late
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_late
+		dataType: int64
+		formatString: 0
+		lineageTag: 1e6a18ff-4f0c-4d98-80f5-a3c407a6badd
+		sourceLineageTag: is_late
+		summarizeBy: sum
+		sourceColumn: is_late
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_delivered
+		dataType: int64
+		formatString: 0
+		lineageTag: 0bb9dcfd-d3eb-4c02-82da-86adb56fb655
+		sourceLineageTag: is_delivered
+		summarizeBy: sum
+		sourceColumn: is_delivered
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_status
+		dataType: string
+		lineageTag: af979fa8-2750-48b0-8d98-2d8c1049a0f2
+		sourceLineageTag: order_status
+		summarizeBy: none
+		sourceColumn: order_status
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_orders = entity
+		mode: directLake
+		source
+			entityName: fact_orders
+			schemaName: dbo
+			expressionSource: 'DirectLake - ecommerce_warehouse'
+

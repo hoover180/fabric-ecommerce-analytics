@@ -1,0 +1,9 @@
+role seller_rls
+	modelPermission: read
+
+	tablePermission dim_sellers = [seller_state] = USERPRINCIPALNAME()
+
+	tablePermission dim_customers
+
+	annotation PBI_Id = 1dd83c4e4dbb40c495fce1fcffe29f38
+
