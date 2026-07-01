@@ -22,14 +22,14 @@ table _Measures
 	measure 'On-Time Delivery Rate' =
 			
 			DIVIDE(
-			    COUNTROWS(FILTER(fact_orders, fact_orders[is_late] = 0)),
+			    CALCULATE(COUNTROWS(fact_orders), fact_orders[is_late] = 0),
 			    COUNTROWS(fact_orders)
 			)
 		formatString: 0.0%;-0.0%;0.0%
 		lineageTag: f3bec87b-d60a-439b-9d75-cb832c176baa
 
 	/// Count of orders where delivery date exceeded the estimated delivery date (is_late = 1).
-	measure 'Late Orders' = COUNTROWS(FILTER(fact_orders, fact_orders[is_late] = 1))
+	measure 'Late Orders' = CALCULATE(COUNTROWS(fact_orders), fact_orders[is_late] = 1)
 		formatString: #,0
 		lineageTag: f36a1fa7-fee4-4f68-b4e2-63c121c95967
 
@@ -110,14 +110,32 @@ table _Measures
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	/// Percentage of orders delivered on or before the estimated delivery date, evaluated at the seller level. Identical logic to On-Time Delivery Rate but intended for seller-level filtering context.
-	measure 'Seller SLA Compliance' =
-			
-			DIVIDE(
-			    CALCULATE(COUNTROWS(fact_orders), fact_orders[is_late] = 0),
-			    COUNTROWS(fact_orders)
-			)
+	measure 'Seller SLA Compliance' = [On-Time Delivery Rate]
 		formatString: 0.0%;-0.0%;0.0%
 		lineageTag: e784d9d3-9174-424f-89dd-07058ed57f12
+
+	/// Counts distinct orders physically delivered within the selected date period. Activates the inactive delivery_date_key → dim_date relationship, shifting filter context from order date to delivery date. Excludes orders with null delivery_date_key (undelivered orders).
+	measure 'Orders Delivered' =
+			
+			CALCULATE(
+			    [Total Orders],
+			    USERELATIONSHIP(fact_orders[delivery_date_key], dim_date[date_key]),
+			    NOT(ISBLANK(fact_orders[delivery_date_key]))
+			)
+		formatString: #,0
+		lineageTag: b837f902-a869-4c73-ae84-4cd3fc2dba83
+
+	/// Count of distinct customers in the current filter context. Based on customer_key (derived from customer_unique_id after Gold deduplication) — not customer_id, which is order-scoped in the source data.
+	measure 'Total Customers' = DISTINCTCOUNT(fact_orders[customer_key])
+		formatString: #,0
+		lineageTag: 67efdb8d-a397-4b36-9a1d-c7edb79a6d20
+
+	/// Average revenue per order. Divides fan-out-corrected Total Revenue by Total Orders.
+	measure 'Avg Order Value' = DIVIDE([Total Revenue], [Total Orders])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 2c1b755b-980e-48d2-bfc1-5c5aa7b91c8a
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column placeholder
 		isHidden
