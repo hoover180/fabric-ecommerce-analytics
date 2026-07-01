@@ -17,6 +17,7 @@ ref table dim_products
 ref table fact_orders
 ref table dim_date
 ref table dim_customers
+ref table _Measures
 
 ref role region_rls
 ref role seller_rls

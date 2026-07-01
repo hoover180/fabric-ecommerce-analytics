@@ -1,0 +1,137 @@
+table _Measures
+	lineageTag: 46cac2d8-9060-4916-b84e-82e7fced4e50
+
+	/// Deduplicates payment_value at order level before summing to prevent fan-out on multi-item orders.
+	measure 'Total Revenue' =
+			
+			SUMX(
+			    SUMMARIZE(fact_orders, fact_orders[order_id], "pv", MAX(fact_orders[payment_value])),
+			    [pv]
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: ff30765a-ba33-4572-9f86-96babca65160
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	/// Count of distinct orders. Lower than fact row count (112,650) because fact grain is order-item, not order.
+	measure 'Total Orders' = DISTINCTCOUNT(fact_orders[order_id])
+		formatString: #,0
+		lineageTag: 3980613f-3df2-4803-a90a-b4211dda69f5
+
+	/// Percentage of orders delivered on or before the estimated delivery date. Filters is_late = 0 before dividing by total rows.
+	measure 'On-Time Delivery Rate' =
+			
+			DIVIDE(
+			    COUNTROWS(FILTER(fact_orders, fact_orders[is_late] = 0)),
+			    COUNTROWS(fact_orders)
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: f3bec87b-d60a-439b-9d75-cb832c176baa
+
+	/// Count of orders where delivery date exceeded the estimated delivery date (is_late = 1).
+	measure 'Late Orders' = COUNTROWS(FILTER(fact_orders, fact_orders[is_late] = 1))
+		formatString: #,0
+		lineageTag: f36a1fa7-fee4-4f68-b4e2-63c121c95967
+
+	/// Average number of days from order purchase to customer delivery. Nulls excluded automatically (undelivered orders).
+	measure 'Avg Delivery Days' = AVERAGE(fact_orders[delivery_days])
+		formatString: 0.0
+		lineageTag: 45176bce-dccf-46bd-b7ba-1abe9086f63d
+
+	/// Average days late for orders that missed the estimated delivery date. Only includes is_late = 1 rows — on-time orders excluded from this average.
+	measure 'Avg Days Late' =
+			
+			AVERAGEX(
+			    FILTER(fact_orders, fact_orders[is_late] = 1),
+			    fact_orders[days_late]
+			)
+		formatString: 0.0
+		lineageTag: 3195dbed-a157-4114-bb38-6e357fa91c5b
+
+	/// Average customer review score (1–5 scale). DAX AVERAGE ignores nulls automatically — 5,556 null review_score rows (no review submitted) are excluded from this calculation.
+	measure 'Avg Review Score' = AVERAGE(fact_orders[review_score])
+		formatString: 0.00
+		lineageTag: a66145b6-30dd-4f52-978d-fe5f2c60b191
+
+	/// Rolling 3-month average review score ending on the last date in the current filter context. Uses DATESINPERIOD to dynamically shift the 3-month window.
+	measure 'Review Score Rolling 3M' =
+			
+			CALCULATE(
+			    [Avg Review Score],
+			    DATESINPERIOD(dim_date[full_date], LASTDATE(dim_date[full_date]), -3, MONTH)
+			)
+		formatString: 0.00
+		lineageTag: 574c00a8-0ef3-43bc-963b-8fa25246e48e
+
+	/// Year-over-year revenue change in absolute dollars. Compares current period Total Revenue to the same period in the prior year using SAMEPERIODLASTYEAR. Returns blank when no prior year data exists.
+	measure 'YoY Revenue' =
+			
+			[Total Revenue] - CALCULATE([Total Revenue], SAMEPERIODLASTYEAR(dim_date[full_date]))
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: dc6e58ee-a5a1-4ed2-938f-460c0655abd4
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	/// Year-over-year revenue change as a percentage. Divides YoY Revenue by prior year Total Revenue. Returns blank when no prior year data exists (2016 will show blank).
+	measure 'YoY Revenue %' =
+			
+			DIVIDE(
+			    [YoY Revenue],
+			    CALCULATE([Total Revenue], SAMEPERIODLASTYEAR(dim_date[full_date]))
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 3cb60d1c-8226-40d0-ace2-04fc355fd102
+
+	/// Percentage of customers who placed more than one order. Uses SUMMARIZE to count orders per customer, then filters for customers with 2 or more orders before dividing by total distinct customers.
+	measure 'Repeat Customer Rate' =
+			
+			DIVIDE(
+			    COUNTROWS(
+			        FILTER(
+			            SUMMARIZE(fact_orders, fact_orders[customer_key], "cnt", COUNTROWS(fact_orders)),
+			            [cnt] >= 2
+			        )
+			    ),
+			    DISTINCTCOUNT(fact_orders[customer_key])
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 69eb3bc1-5929-427e-ab2c-9af13a0fd71a
+
+	/// Average customer lifetime value — total revenue per customer averaged across all customers. Uses SUMMARIZE to calculate per-customer revenue via the fan-out-corrected Total Revenue measure, then averages across all customers.
+	measure CLV =
+			
+			AVERAGEX(
+			    SUMMARIZE(fact_orders, fact_orders[customer_key], "ltv", [Total Revenue]),
+			    [ltv]
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: d35277f2-77ab-48f5-b638-c43efe12ca60
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	/// Percentage of orders delivered on or before the estimated delivery date, evaluated at the seller level. Identical logic to On-Time Delivery Rate but intended for seller-level filtering context.
+	measure 'Seller SLA Compliance' =
+			
+			DIVIDE(
+			    CALCULATE(COUNTROWS(fact_orders), fact_orders[is_late] = 0),
+			    COUNTROWS(fact_orders)
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: e784d9d3-9174-424f-89dd-07058ed57f12
+
+	column placeholder
+		isHidden
+		formatString: 0
+		lineageTag: f47234de-6611-4d24-8f93-9fc6385d113d
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [placeholder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = calculated
+		mode: import
+		source = ROW("placeholder", BLANK())
+
+	annotation PBI_Id = a95e0adee3a3465caead1d274143d853
+
