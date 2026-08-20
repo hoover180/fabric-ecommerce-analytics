@@ -1,0 +1,21 @@
+[sqlfluff]
+dialect = tsql
+templater = raw
+# RF05, ST06, ST07 — Fabric Warehouse T-SQL syntax (HASHBYTES, GENERATE_SERIES,
+#   distributed-mode function patterns) trips false positives in sqlfluff's
+#   default rule set; these are tool limitations, not style violations.
+# ST01 — explicit "ELSE NULL" is kept intentionally in CASE statements for
+#   self-documentation (signals the branch was considered, not omitted).
+# RF04, RF06 — these two rules contradict each other on reserved-word columns
+#   (year, month): RF04 demands bracket-quoting, RF06 calls the quoting
+#   unnecessary. Bracket-quoted for clarity and excluded from lint accordingly.
+exclude_rules = RF05, ST06, ST07, ST01, RF04, RF06
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = upper
+
+[sqlfluff:rules:capitalisation.identifiers]
+capitalisation_policy = consistent
+
+[sqlfluff:rules:layout.long_lines]
+max_line_length = 120
