@@ -69,12 +69,16 @@ def log_pipeline_run(run_id: str, table_name: str, source_file: str,
     """)
 
 
-def register_delta_table(table_name: str, delta_path: str):
-    # Registers the written Delta path under dbo so it's queryable by name
-    # (e.g. dbo.customers) rather than only by raw path in the Lakehouse.
+def register_delta_table(table_name: str, delta_path: str, schema: str = "dbo"):
+    # Registers the written Delta path under the given schema so it's
+    # queryable by name (e.g. Bronze.customers) rather than only by raw
+    # path in the Lakehouse. Defaults to dbo for cross-layer infrastructure
+    # tables (pipeline_run_log, watermark_table); Bronze/Silver/Gold
+    # ingestion notebooks pass their own layer's schema explicitly.
     location = spark.sql(f"DESCRIBE DETAIL delta.`{delta_path}`").collect()[0]["location"]
+    spark.sql(f"CREATE SCHEMA IF NOT EXISTS {schema}")
     spark.sql(f"""
-        CREATE TABLE IF NOT EXISTS dbo.{table_name}
+        CREATE TABLE IF NOT EXISTS {schema}.{table_name}
         USING DELTA
         LOCATION '{location}'
     """)
