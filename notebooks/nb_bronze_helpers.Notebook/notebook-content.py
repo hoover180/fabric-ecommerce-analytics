@@ -55,15 +55,21 @@ def update_watermark(table_name: str, new_date: date, run_id: str):
 
 def log_pipeline_run(run_id: str, table_name: str, source_file: str,
                       rows_loaded: int, status: str, error_message: str = None):
-    error_val = f"'{error_message}'" if error_message else "NULL"
+    # Escape single quotes so exception messages containing apostrophes
+    # (e.g. "table 'x' already exists") don't break the INSERT statement
+    # and mask the real error behind a secondary SQL parse failure.
+    def esc(s):
+        return s.replace("'", "''") if s else s
+
+    error_val = f"'{esc(error_message)}'" if error_message else "NULL"
     spark.sql(f"""
         INSERT INTO dbo.pipeline_run_log VALUES (
             '{run_id}',
-            '{table_name}',
-            '{source_file}',
+            '{esc(table_name)}',
+            '{esc(source_file)}',
             CURRENT_TIMESTAMP(),
             {rows_loaded},
-            '{status}',
+            '{esc(status)}',
             {error_val}
         )
     """)
