@@ -403,6 +403,132 @@
         ]
       },
       {
+        "name": "dim_products",
+        "sourceLineageTag": "[Gold].[dim_products]",
+        "columns": [
+          {
+            "name": "product_key",
+            "dataType": "string",
+            "sourceColumn": "product_key",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "product_key",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "product_id",
+            "dataType": "string",
+            "sourceColumn": "product_id",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "product_id",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "product_category_english",
+            "dataType": "string",
+            "sourceColumn": "product_category_english",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "product_category_english",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "product_weight_g",
+            "dataType": "int64",
+            "sourceColumn": "product_weight_g",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "product_weight_g",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "product_length_cm",
+            "dataType": "int64",
+            "sourceColumn": "product_length_cm",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "product_length_cm",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "product_height_cm",
+            "dataType": "int64",
+            "sourceColumn": "product_height_cm",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "product_height_cm",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "product_width_cm",
+            "dataType": "int64",
+            "sourceColumn": "product_width_cm",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "product_width_cm",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "dim_products",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "Gold"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
+      },
+      {
         "name": "dim_sellers",
         "sourceLineageTag": "[Gold].[dim_sellers]",
         "columns": [
