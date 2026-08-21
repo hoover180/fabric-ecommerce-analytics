@@ -135,3 +135,62 @@ passed.
 
 _Updated: Phase 2 complete — all 8 Silver tables (7 conformed + 1
 deduplicated) validated against Bronze, zero discrepancies._
+
+---
+
+## Gold Layer
+
+All Gold tables registered under a dedicated `Gold` schema in
+`ecommerce_warehouse`, extending the schema-per-layer convention used for
+Bronze/Silver in the lakehouse. Built via 6 T-SQL scripts (4 dimensions,
+1 fact table, 1 quality-log table) plus 5 standalone validation scripts,
+all under `gold/sql/`.
+
+**Identifier quoting:** `[Gold]` and `[Silver]` are bracket-quoted
+throughout every Gold script. `sqlfluff`'s `capitalisation.identifiers`
+rule (policy: `consistent`) requires uniform casing across all unquoted
+identifiers in a file; since every column name is lowercase snake_case,
+an unquoted capitalized schema name breaks that consistency. Bracket
+quoting removes the identifier from that check entirely — the same
+pattern already used for `[year]`/`[month]` in `dim_date`.
+
+**Surrogate keys:** MD5 hash of the natural key
+(`LOWER(CONVERT(VARCHAR(32), HASHBYTES('MD5', <natural_key>), 2))`),
+`VARCHAR(32)`, used on every dimension and the fact table. Deterministic —
+the same natural key always produces the same surrogate key, so
+dimension reloads (SCD Type 1 overwrite) don't shift keys for unchanged
+rows. `dim_date` is the exception: its `date_key` is a plain
+`INT` (`YYYYMMDD`), per standard convention for date dimensions.
+
+**SCD Type:** 1 (overwrite on reload) applied to all dimensions — no
+business requirement exists to track historical attribute changes for
+this dataset.
+
+| Table           | Rows    | Grain                                                 | Notes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| --------------- | ------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `dim_date`      | 1,096   | One row per calendar date, 2016-01-01–2018-12-31      | Generated via `GENERATE_SERIES` (a recursive-CTE approach with `OPTION (MAXRECURSION 0)` was tried first and rejected — Fabric Warehouse does not support that query hint). Covers the full span of `order_purchase_timestamp` plus estimated-delivery dates with margin.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `dim_customers` | 96,096  | One row per `customer_unique_id`                      | `Silver.customers` grain is `customer_id` (order-scoped, one row per order). Deduplicated to `customer_unique_id` here via `ROW_NUMBER() OVER (PARTITION BY customer_unique_id ORDER BY customer_id DESC)`, keeping the most recent record. Geolocation resolved via a zip-prefix join to `Silver.geolocation`, averaged (`AVG(lat)`, `AVG(lng)`) per prefix — no standalone `dim_geolocation` table. Adds `customer_state_country` (full state name) to disambiguate Brazilian state codes from colliding place names in map visuals.                                                                                                                                                                                                                                                                            |
+| `dim_sellers`   | 3,095   | One row per `seller_id`                               | Same geolocation-averaging join as customers. Adds pre-aggregated `total_orders`, `on_time_rate`, `avg_review_score`, `sla_compliance_bucket` for reporting performance. **Grain note:** these metrics are computed from a `seller_order_grain` CTE that first collapses `order_items` (item grain) to distinct `(seller_id, order_id)` pairs _before_ aggregating `is_late` — aggregating directly from item-grain rows would overweight sellers with more multi-item orders, inflating or deflating `on_time_rate` incorrectly.                                                                                                                                                                                                                                                                                 |
+| `dim_products`  | 32,951  | One row per `product_id`                              | Category translation already resolved at Silver. 623 rows have a null `product_category_english` — matches the null count in the underlying Silver data exactly; a known, tolerated source gap, not a pipeline defect.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `fact_orders`   | 112,650 | One row per order item (`order_id` + `order_item_id`) | Joins `Silver.order_items`/`orders` to all four dimensions via `INNER JOIN` (an order-item whose seller/product/customer didn't resolve to a dimension row would silently drop — verified not to occur via the row-count-parity check below). `payment_value` aggregated to order level (`SUM` grouped by `order_id`) before joining, to avoid fanning payment totals across multi-item orders. `review_score` sourced from the most recent review per order (`ROW_NUMBER()` on `review_answer_timestamp`), filtered to `review_score_valid = 1`. `days_late_bucket`/`days_late_bucket_sort` computed in T-SQL rather than DAX, since Direct Lake semantic models don't support calculated columns; `NULL` `days_late` (non-delivered orders) maps explicitly to a `"Not Delivered"` bucket with sort value `-1`. |
+
+**`fact_orders.review_score` nulls:** 942. All 99,224 rows in
+`Silver.order_reviews` pass `review_score_valid` (0 invalid numeric
+conversions), so every null in `fact_orders` represents an order with no
+submitted review — none are conversion failures. Traceable to explicit
+`quote`/`escape` CSV read options applied during Bronze ingestion of
+`order_reviews`.
+
+**`fact_orders.payment_value` nulls:** 3 — order items with no matching
+aggregated payment row.
+
+**Validation:** `gold_quality_log` (12 checks: 4 null-surrogate-key
+checks, 4 referential-integrity checks, row-count parity against
+`Silver.order_items`, review-score range/null-count, revenue
+reconciliation) — **all 12 passing.** Revenue reconciliation:
+`fact_orders` (deduplicated to order level before summing) vs.
+`Silver.order_payments` (scoped via `EXISTS` to orders with matching
+`order_items` rows) — **R$15,846,280.17 on both sides, 0% variance.**
+
+_Updated: Phase 3 complete — Gold star schema (4 dimensions, 1 fact
+table) built and validated against Silver, 12/12 quality checks passing._
