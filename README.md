@@ -53,14 +53,14 @@ Orchestrated via a Data Factory pipeline (Notebook → Validation → Dataflow �
 | Power BI (.pbip)                | Final reporting layer, Git-diffable report format | PL-300            |
 | GitHub Actions                  | CI/CD — SQL linting                               | —                 |
 
-**Certifications:** PL-300 ■ Passed · DP-600 ■ Passed · DP-700 ■ Passed
+**Certifications:** [PL-300](https://learn.microsoft.com/en-us/users/michaelhoover-2613/credentials/9c0581e743fc1bf9) ✅ Passed · [DP-600](https://learn.microsoft.com/en-us/users/michaelhoover-2613/credentials/fa6879dec0a2a917) ✅ Passed · [DP-700](https://learn.microsoft.com/en-us/users/michaelhoover-2613/credentials/365699f83003135b) ✅ Passed
 
 ---
 
 ## Progress Tracker
 
 - [x] Phase 0 — Setup, scaffold, business case, data dictionary
-- [ ] Phase 1 — Bronze layer (incremental ingestion, pipeline logging, schema drift, watermark logic)
+- [x] Phase 1 — Bronze layer (incremental ingestion, pipeline logging, schema drift, watermark logic)
 - [ ] Phase 2 — Silver layer (Dataflows Gen2, PySpark validation)
 - [ ] Phase 3 — Gold layer (T-SQL star schema, Kimball modeling)
 - [ ] Phase 4 — Data quality: enforced validation gate (fail-fast threshold), incremental-load demo (proven via three-run test — full load, no-op re-run, incremental-only re-run), GitHub Actions CI
