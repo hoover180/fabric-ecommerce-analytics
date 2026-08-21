@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Dataflow",
+    "displayName": "df_silver_order_items"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "eaaf836c-957c-af45-4af0-be73324e8a78"
+  }
+}
