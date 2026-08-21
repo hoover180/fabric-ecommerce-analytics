@@ -1,0 +1,29 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "df_silver_order_reviews",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "Bronze order_reviews": {
+      "queryId": "f72f4dc4-fda4-47d9-a0c9-f7ef53869795",
+      "queryName": "Bronze order_reviews",
+      "loadEnabled": false
+    },
+    "Bronze order_reviews_DataDestination": {
+      "queryId": "8e363c90-5dba-4712-87ab-1360eb4c2c5c",
+      "queryName": "Bronze order_reviews_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"96245c3f-64b0-4a34-b3e4-c6ba52c14c69\",\"DatasourceId\":\"f140f0c1-f860-4d07-9556-b1e45c4708b3\"}"
+    }
+  ]
+}
