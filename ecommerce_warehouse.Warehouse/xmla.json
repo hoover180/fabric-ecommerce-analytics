@@ -13,6 +13,136 @@
     "sourceQueryCulture": "en-US",
     "tables": [
       {
+        "name": "dim_customers",
+        "sourceLineageTag": "[Gold].[dim_customers]",
+        "columns": [
+          {
+            "name": "customer_key",
+            "dataType": "string",
+            "sourceColumn": "customer_key",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "customer_key",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "customer_unique_id",
+            "dataType": "string",
+            "sourceColumn": "customer_unique_id",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "customer_unique_id",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "customer_city",
+            "dataType": "string",
+            "sourceColumn": "customer_city",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "customer_city",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "customer_state",
+            "dataType": "string",
+            "sourceColumn": "customer_state",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "customer_state",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "customer_state_country",
+            "dataType": "string",
+            "sourceColumn": "customer_state_country",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "customer_state_country",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "geolocation_lat",
+            "dataType": "double",
+            "sourceColumn": "geolocation_lat",
+            "sourceProviderType": "float",
+            "sourceLineageTag": "geolocation_lat",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "geolocation_lng",
+            "dataType": "double",
+            "sourceColumn": "geolocation_lng",
+            "sourceProviderType": "float",
+            "sourceLineageTag": "geolocation_lng",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "dim_customers",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "Gold"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
+      },
+      {
         "name": "dim_date",
         "sourceLineageTag": "[Gold].[dim_date]",
         "columns": [
