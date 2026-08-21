@@ -1022,6 +1022,87 @@
             "value": "False"
           }
         ]
+      },
+      {
+        "name": "gold_quality_log",
+        "sourceLineageTag": "[Gold].[gold_quality_log]",
+        "columns": [
+          {
+            "name": "check_name",
+            "dataType": "string",
+            "sourceColumn": "check_name",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "check_name",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "result",
+            "dataType": "string",
+            "sourceColumn": "result",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "result",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "detail",
+            "dataType": "string",
+            "sourceColumn": "detail",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "detail",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "run_timestamp",
+            "dataType": "dateTime",
+            "sourceColumn": "run_timestamp",
+            "formatString": "General Date",
+            "sourceProviderType": "datetime2",
+            "sourceLineageTag": "run_timestamp",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "gold_quality_log",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "Gold"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
       }
     ],
     "expressions": [
