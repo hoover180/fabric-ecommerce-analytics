@@ -1,0 +1,29 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "df_silver_orders",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "Bronze orders": {
+      "queryId": "c05990f4-b265-4900-80e8-61fd1e4057bb",
+      "queryName": "Bronze orders",
+      "loadEnabled": false
+    },
+    "Bronze orders_DataDestination": {
+      "queryId": "b215e9b6-280c-40a5-87ea-66964c4c85cc",
+      "queryName": "Bronze orders_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"96245c3f-64b0-4a34-b3e4-c6ba52c14c69\",\"DatasourceId\":\"f140f0c1-f860-4d07-9556-b1e45c4708b3\"}"
+    }
+  ]
+}
