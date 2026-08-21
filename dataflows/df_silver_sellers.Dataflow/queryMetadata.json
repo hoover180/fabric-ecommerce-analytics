@@ -1,0 +1,29 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "df_silver_sellers",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "Bronze sellers": {
+      "queryId": "3182bd09-fd6a-43f6-a82b-301afe5e9f73",
+      "queryName": "Bronze sellers",
+      "loadEnabled": false
+    },
+    "Bronze sellers_DataDestination": {
+      "queryId": "c2dd02a9-54f3-40e9-9fb9-cb74abf9d4ca",
+      "queryName": "Bronze sellers_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"96245c3f-64b0-4a34-b3e4-c6ba52c14c69\",\"DatasourceId\":\"f140f0c1-f860-4d07-9556-b1e45c4708b3\"}"
+    }
+  ]
+}
