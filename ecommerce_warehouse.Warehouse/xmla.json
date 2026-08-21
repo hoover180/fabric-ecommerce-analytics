@@ -401,6 +401,187 @@
             "value": "False"
           }
         ]
+      },
+      {
+        "name": "dim_sellers",
+        "sourceLineageTag": "[Gold].[dim_sellers]",
+        "columns": [
+          {
+            "name": "seller_key",
+            "dataType": "string",
+            "sourceColumn": "seller_key",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "seller_key",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "seller_id",
+            "dataType": "string",
+            "sourceColumn": "seller_id",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "seller_id",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "seller_city",
+            "dataType": "string",
+            "sourceColumn": "seller_city",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "seller_city",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "seller_state",
+            "dataType": "string",
+            "sourceColumn": "seller_state",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "seller_state",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "sla_compliance_bucket",
+            "dataType": "string",
+            "sourceColumn": "sla_compliance_bucket",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "sla_compliance_bucket",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "geolocation_lat",
+            "dataType": "double",
+            "sourceColumn": "geolocation_lat",
+            "sourceProviderType": "float",
+            "sourceLineageTag": "geolocation_lat",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "geolocation_lng",
+            "dataType": "double",
+            "sourceColumn": "geolocation_lng",
+            "sourceProviderType": "float",
+            "sourceLineageTag": "geolocation_lng",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "total_orders",
+            "dataType": "int64",
+            "sourceColumn": "total_orders",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "total_orders",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "on_time_rate",
+            "dataType": "double",
+            "sourceColumn": "on_time_rate",
+            "sourceProviderType": "float",
+            "sourceLineageTag": "on_time_rate",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "avg_review_score",
+            "dataType": "double",
+            "sourceColumn": "avg_review_score",
+            "sourceProviderType": "float",
+            "sourceLineageTag": "avg_review_score",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "dim_sellers",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "Gold"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
       }
     ],
     "expressions": [
