@@ -6,12 +6,13 @@
 -- SCD Type: N/A (static reference table)
 -- Author: Michael Hoover | github.com/hoover180
 -- =============================================================
-
-CREATE SCHEMA [Gold];
-GO
-
+IF
+    NOT EXISTS (
+        SELECT 1 FROM sys.schemas
+        WHERE name = 'Gold'
+    )
+    EXEC ('CREATE SCHEMA [Gold]');
 DROP TABLE IF EXISTS [Gold].dim_date;
-
 CREATE TABLE [Gold].dim_date (
     date_key INTEGER NOT NULL,
     full_date DATE NOT NULL,
@@ -30,7 +31,6 @@ CREATE TABLE [Gold].dim_date (
     is_month_end BIT NOT NULL,
     year_offset SMALLINT NOT NULL
 );
-
 INSERT INTO [Gold].dim_date (
     date_key, full_date, [year], quarter, quarter_name,  -- noqa: RF06
     [month], month_name, month_year, month_sort, week_of_year,  -- noqa: RF06
