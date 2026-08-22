@@ -33,13 +33,15 @@
 
 # CELL ********************
 
-# Bronze ingestion for [orders] — full replace load.
+# Bronze ingestion for [orders] — incremental load via order_purchase_timestamp watermark.
 
 from datetime import date
+from pyspark.sql import functions as F
 
 TABLE_NAME       = "orders"
 SOURCE_FILE      = "Files/Bronze/raw/olist_orders_dataset.csv"
 DELTA_PATH       = "Tables/Bronze/orders"
+TIMESTAMP_COL    = "order_purchase_timestamp"
 EXPECTED_COLUMNS = [
     "order_id", "customer_id", "order_status",
     "order_purchase_timestamp", "order_approved_at",
@@ -48,7 +50,8 @@ EXPECTED_COLUMNS = [
 ]
 
 run_id = generate_run_id()
-print(f"Run ID: {run_id} | Table: {TABLE_NAME}")
+watermark_date = get_watermark(TABLE_NAME)
+print(f"Run ID: {run_id} | Table: {TABLE_NAME} | Watermark: {watermark_date}")
 
 df_raw = spark.read.option("header", True).option("inferSchema", True).csv(SOURCE_FILE)
 print(f"Raw row count: {df_raw.count()}")
@@ -61,10 +64,13 @@ if drift or missing:
     log_pipeline_run(run_id, TABLE_NAME, SOURCE_FILE, 0, "schema_drift", msg)
     raise Exception(msg)
 
-rows_loaded = df_raw.count()
+# First run's watermark defaults to 1900-01-01, so this loads all rows
+df_filtered = df_raw.filter(F.to_date(F.col(TIMESTAMP_COL)) > F.lit(watermark_date))
+rows_loaded = df_filtered.count()
+print(f"Rows to load (incremental): {rows_loaded}")
 
 try:
-    df_raw.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save(DELTA_PATH)
+    df_filtered.write.format("delta").mode("append").save(DELTA_PATH)
     register_delta_table(TABLE_NAME, DELTA_PATH, schema="Bronze")
     update_watermark(TABLE_NAME, date.today(), run_id)
     log_pipeline_run(run_id, TABLE_NAME, SOURCE_FILE, rows_loaded, "success")

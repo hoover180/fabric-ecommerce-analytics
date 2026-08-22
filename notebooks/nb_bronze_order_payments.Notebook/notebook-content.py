@@ -33,7 +33,7 @@
 
 # CELL ********************
 
-# Bronze ingestion for [order_payments] — full replace load.
+# Bronze ingestion for [order_payments] — full replace load (no natural business timestamp exists on this table to support incremental filtering).
 
 from datetime import date
 

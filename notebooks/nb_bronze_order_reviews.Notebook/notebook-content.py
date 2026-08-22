@@ -33,13 +33,16 @@
 
 # CELL ********************
 
-# Bronze ingestion for [order_reviews] — full replace load.
+# Bronze ingestion for [order_reviews] — incremental load via review_creation_date
+# watermark.
 
 from datetime import date
+from pyspark.sql import functions as F
 
 TABLE_NAME       = "order_reviews"
 SOURCE_FILE      = "Files/Bronze/raw/olist_order_reviews_dataset.csv"
 DELTA_PATH       = "Tables/Bronze/order_reviews"
+TIMESTAMP_COL    = "review_creation_date"
 EXPECTED_COLUMNS = [
     "review_id", "order_id", "review_score",
     "review_comment_title", "review_comment_message",
@@ -47,7 +50,8 @@ EXPECTED_COLUMNS = [
 ]
 
 run_id = generate_run_id()
-print(f"Run ID: {run_id} | Table: {TABLE_NAME}")
+watermark_date = get_watermark(TABLE_NAME)
+print(f"Run ID: {run_id} | Table: {TABLE_NAME} | Watermark: {watermark_date}")
 
 df_raw = (
     spark.read
@@ -72,7 +76,6 @@ df_raw = (
 )
 print(f"Raw row count: {df_raw.count()}")
 
-# Fail fast on schema drift before writing anything
 drift   = [c for c in df_raw.columns if c not in EXPECTED_COLUMNS]
 missing = [c for c in EXPECTED_COLUMNS if c not in df_raw.columns]
 if drift or missing:
@@ -80,10 +83,12 @@ if drift or missing:
     log_pipeline_run(run_id, TABLE_NAME, SOURCE_FILE, 0, "schema_drift", msg)
     raise Exception(msg)
 
-rows_loaded = df_raw.count()
+df_filtered = df_raw.filter(F.to_date(F.col(TIMESTAMP_COL)) > F.lit(watermark_date))
+rows_loaded = df_filtered.count()
+print(f"Rows to load (incremental): {rows_loaded}")
 
 try:
-    df_raw.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save(DELTA_PATH)
+    df_filtered.write.format("delta").mode("append").save(DELTA_PATH)
     register_delta_table(TABLE_NAME, DELTA_PATH, schema="Bronze")
     update_watermark(TABLE_NAME, date.today(), run_id)
     log_pipeline_run(run_id, TABLE_NAME, SOURCE_FILE, rows_loaded, "success")
