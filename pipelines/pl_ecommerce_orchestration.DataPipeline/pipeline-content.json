@@ -243,7 +243,7 @@
         "name": "Silver - customers",
         "dependsOn": [
           {
-            "activity": "Bronze - validation",
+            "activity": "Bronze Gate - Halt on Failure",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -269,7 +269,7 @@
         "name": "Silver - orders",
         "dependsOn": [
           {
-            "activity": "Bronze - validation",
+            "activity": "Bronze Gate - Halt on Failure",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -295,7 +295,7 @@
         "name": "Silver - order items",
         "dependsOn": [
           {
-            "activity": "Bronze - validation",
+            "activity": "Bronze Gate - Halt on Failure",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -321,7 +321,7 @@
         "name": "Silver - order payments",
         "dependsOn": [
           {
-            "activity": "Bronze - validation",
+            "activity": "Bronze Gate - Halt on Failure",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -347,7 +347,7 @@
         "name": "Silver - order reviews",
         "dependsOn": [
           {
-            "activity": "Bronze - validation",
+            "activity": "Bronze Gate - Halt on Failure",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -373,7 +373,7 @@
         "name": "Silver - products",
         "dependsOn": [
           {
-            "activity": "Bronze - validation",
+            "activity": "Bronze Gate - Halt on Failure",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -399,7 +399,7 @@
         "name": "Silver - sellers",
         "dependsOn": [
           {
-            "activity": "Bronze - validation",
+            "activity": "Bronze Gate - Halt on Failure",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -422,7 +422,7 @@
         "name": "Silver - geolocation",
         "dependsOn": [
           {
-            "activity": "Bronze - validation",
+            "activity": "Bronze Gate - Halt on Failure",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -530,7 +530,7 @@
         "name": "Gold - dim_date",
         "dependsOn": [
           {
-            "activity": "Silver - Validation",
+            "activity": "Silver Gate - Halt on Failure",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -573,7 +573,7 @@
         "name": "Gold - dim_customers",
         "dependsOn": [
           {
-            "activity": "Silver - Validation",
+            "activity": "Silver Gate - Halt on Failure",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -616,7 +616,7 @@
         "name": "Gold - dim_sellers",
         "dependsOn": [
           {
-            "activity": "Silver - Validation",
+            "activity": "Silver Gate - Halt on Failure",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -659,7 +659,7 @@
         "name": "Gold - dim_products",
         "dependsOn": [
           {
-            "activity": "Silver - Validation",
+            "activity": "Silver Gate - Halt on Failure",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -764,6 +764,229 @@
         "dependsOn": [
           {
             "activity": "Gold - fact_orders",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COUNT(*) AS fail_count\nFROM ecommerce_lakehouse.dbo.bronze_quality_log\nWHERE run_timestamp = (SELECT MAX(run_timestamp) FROM ecommerce_lakehouse.dbo.bronze_quality_log)\n  AND passed = 0",
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "schema": [],
+            "linkedService": {
+              "name": "ecommerce_warehouse",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "artifactId": "1ae7b0bd-9d98-83c1-416b-5a77487b15d7",
+                  "endpoint": "b5ciqai7f4ju7f2ca56lowqa2u-hqybdsb5c54enl6md3lfonq33e.datawarehouse.fabric.microsoft.com",
+                  "workspaceId": "00000000-0000-0000-0000-000000000000"
+                },
+                "annotations": []
+              }
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Bronze Gate - Check Results",
+        "dependsOn": [
+          {
+            "activity": "Bronze - validation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COUNT(*) AS fail_count\r\nFROM ecommerce_lakehouse.dbo.silver_quality_log\r\nWHERE run_timestamp = (SELECT MAX(run_timestamp) FROM ecommerce_lakehouse.dbo.silver_quality_log)\r\n  AND passed = 0",
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "schema": [],
+            "linkedService": {
+              "name": "ecommerce_warehouse",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "artifactId": "1ae7b0bd-9d98-83c1-416b-5a77487b15d7",
+                  "endpoint": "b5ciqai7f4ju7f2ca56lowqa2u-hqybdsb5c54enl6md3lfonq33e.datawarehouse.fabric.microsoft.com",
+                  "workspaceId": "00000000-0000-0000-0000-000000000000"
+                },
+                "annotations": []
+              }
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver Gate - Check Results",
+        "dependsOn": [
+          {
+            "activity": "Silver - Validation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COUNT(*) AS fail_count\r\nFROM [Gold].gold_quality_log\r\nWHERE run_timestamp = (SELECT MAX(run_timestamp) FROM [Gold].gold_quality_log)\r\n  AND result = 'FAIL'",
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "schema": [],
+            "linkedService": {
+              "name": "ecommerce_warehouse",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "artifactId": "1ae7b0bd-9d98-83c1-416b-5a77487b15d7",
+                  "endpoint": "b5ciqai7f4ju7f2ca56lowqa2u-hqybdsb5c54enl6md3lfonq33e.datawarehouse.fabric.microsoft.com",
+                  "workspaceId": "00000000-0000-0000-0000-000000000000"
+                },
+                "annotations": []
+              }
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Gold Gate - Check Results",
+        "dependsOn": [
+          {
+            "activity": "Gold - validation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "IfCondition",
+        "typeProperties": {
+          "expression": {
+            "value": "@greater(activity('Bronze Gate - Check Results').output.firstRow.fail_count, 0)",
+            "type": "Expression"
+          },
+          "ifTrueActivities": [
+            {
+              "type": "Fail",
+              "typeProperties": {
+                "message": "Bronze validation failed — check bronze_quality_log for details.",
+                "errorCode": "BRONZE_VALIDATION_FAILED"
+              },
+              "name": "Fail Bronze",
+              "dependsOn": []
+            }
+          ],
+          "ifFalseActivities": []
+        },
+        "name": "Bronze Gate - Halt on Failure",
+        "dependsOn": [
+          {
+            "activity": "Bronze Gate - Check Results",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "IfCondition",
+        "typeProperties": {
+          "expression": {
+            "value": "@greater(activity('Silver Gate - Check Results').output.firstRow.fail_count, 0)",
+            "type": "Expression"
+          },
+          "ifTrueActivities": [
+            {
+              "type": "Fail",
+              "typeProperties": {
+                "message": "Silver validation failed — check silver_quality_log for details.",
+                "errorCode": "SILVER_VALIDATION_FAILED"
+              },
+              "name": "Fail Silver",
+              "dependsOn": []
+            }
+          ],
+          "ifFalseActivities": []
+        },
+        "name": "Silver Gate - Halt on Failure",
+        "description": "",
+        "dependsOn": [
+          {
+            "activity": "Silver Gate - Check Results",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "IfCondition",
+        "typeProperties": {
+          "expression": {
+            "value": "@greater(activity('Gold Gate - Check Results').output.firstRow.fail_count, 0)",
+            "type": "Expression"
+          },
+          "ifTrueActivities": [
+            {
+              "type": "Fail",
+              "typeProperties": {
+                "message": "Gold validation failed — check gold_quality_log for details.",
+                "errorCode": "GOLD_VALIDATION_FAILED"
+              },
+              "name": "Fail Gold",
+              "dependsOn": []
+            }
+          ],
+          "ifFalseActivities": []
+        },
+        "name": "Gold Gate - Halt on Failure",
+        "dependsOn": [
+          {
+            "activity": "Gold Gate - Check Results",
             "dependencyConditions": [
               "Succeeded"
             ]
