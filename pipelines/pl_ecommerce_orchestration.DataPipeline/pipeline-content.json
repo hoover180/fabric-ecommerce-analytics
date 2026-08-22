@@ -292,7 +292,7 @@
           "secureInput": false,
           "secureOutput": false
         },
-        "name": "Silver - order items",
+        "name": "Silver - order_items",
         "dependsOn": [
           {
             "activity": "Bronze Gate - Halt on Failure",
@@ -318,7 +318,7 @@
           "secureInput": false,
           "secureOutput": false
         },
-        "name": "Silver - order payments",
+        "name": "Silver - order_payments",
         "dependsOn": [
           {
             "activity": "Bronze Gate - Halt on Failure",
@@ -344,7 +344,7 @@
           "secureInput": false,
           "secureOutput": false
         },
-        "name": "Silver - order reviews",
+        "name": "Silver - order_reviews",
         "dependsOn": [
           {
             "activity": "Bronze Gate - Halt on Failure",
@@ -463,19 +463,19 @@
             ]
           },
           {
-            "activity": "Silver - order items",
+            "activity": "Silver - order_items",
             "dependencyConditions": [
               "Succeeded"
             ]
           },
           {
-            "activity": "Silver - order payments",
+            "activity": "Silver - order_payments",
             "dependencyConditions": [
               "Succeeded"
             ]
           },
           {
-            "activity": "Silver - order reviews",
+            "activity": "Silver - order_reviews",
             "dependencyConditions": [
               "Succeeded"
             ]
