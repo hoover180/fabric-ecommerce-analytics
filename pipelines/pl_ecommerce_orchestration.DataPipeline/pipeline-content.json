@@ -1,0 +1,775 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "a9b6f479-2105-a8f6-4825-48eadf21f3fe",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Bronze - customers",
+        "dependsOn": []
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "c713e492-26a4-9299-4425-4b6b30f821f5",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Bronze - orders",
+        "dependsOn": [
+          {
+            "activity": "Bronze - customers",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "e6925ef8-8511-b5ef-47d8-8ae40105cfa9",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Bronze - order_items",
+        "dependsOn": [
+          {
+            "activity": "Bronze - orders",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "dc7c9932-091c-b9e9-46fd-c6bd4e7ece64",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Bronze - order_payments",
+        "dependsOn": [
+          {
+            "activity": "Bronze - order_items",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "515c5ad3-4a80-aaac-439c-7a19f80c3cb9",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Bronze - order_reviews",
+        "dependsOn": [
+          {
+            "activity": "Bronze - order_payments",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "651b4da8-9c56-8f6f-4a3f-bad2dc766e18",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Bronze - sellers",
+        "dependsOn": [
+          {
+            "activity": "Bronze - order_reviews",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "51a089e6-257b-8357-48b3-831e51759fdc",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Bronze - products",
+        "dependsOn": [
+          {
+            "activity": "Bronze - sellers",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "ca592a66-2a67-bb40-49b2-c69d2403fba8",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Bronze - product_category_translation",
+        "dependsOn": [
+          {
+            "activity": "Bronze - products",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "55679cfc-ea92-b92e-4c96-3f5b6fae4977",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Bronze - geolocation",
+        "dependsOn": [
+          {
+            "activity": "Bronze - product_category_translation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "e4ed2d89-8cdf-815b-437f-e552c8a8f46f",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Bronze - validation",
+        "dependsOn": [
+          {
+            "activity": "Bronze - geolocation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "RefreshDataflow",
+        "typeProperties": {
+          "dataflowId": "bf5114ca-8b05-b5de-43bf-13c3ef44add1",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "notifyOption": "NoNotification",
+          "dataflowType": "DataflowFabric",
+          "executeMashupQueriesOnly": true
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver - customers",
+        "dependsOn": [
+          {
+            "activity": "Bronze - validation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "RefreshDataflow",
+        "typeProperties": {
+          "dataflowId": "7cc3e40e-fb0c-aa52-4c92-7b106f5824d7",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "notifyOption": "NoNotification",
+          "dataflowType": "DataflowFabric",
+          "executeMashupQueriesOnly": true
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver - orders",
+        "dependsOn": [
+          {
+            "activity": "Bronze - validation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "RefreshDataflow",
+        "typeProperties": {
+          "dataflowId": "eaaf836c-957c-af45-4af0-be73324e8a78",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "notifyOption": "NoNotification",
+          "dataflowType": "DataflowFabric",
+          "executeMashupQueriesOnly": true
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver - order items",
+        "dependsOn": [
+          {
+            "activity": "Bronze - validation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "RefreshDataflow",
+        "typeProperties": {
+          "dataflowId": "87e96d85-a5a4-82dd-4166-51583a5b49ee",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "notifyOption": "NoNotification",
+          "dataflowType": "DataflowFabric",
+          "executeMashupQueriesOnly": true
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver - order payments",
+        "dependsOn": [
+          {
+            "activity": "Bronze - validation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "RefreshDataflow",
+        "typeProperties": {
+          "dataflowId": "838958d8-bd9a-a4ad-4f13-56d992c46ebd",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "notifyOption": "NoNotification",
+          "dataflowType": "DataflowFabric",
+          "executeMashupQueriesOnly": true
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver - order reviews",
+        "dependsOn": [
+          {
+            "activity": "Bronze - validation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "RefreshDataflow",
+        "typeProperties": {
+          "dataflowId": "c19cd263-1d39-a417-49a2-dd9bfe89c471",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "notifyOption": "NoNotification",
+          "dataflowType": "DataflowFabric",
+          "executeMashupQueriesOnly": true
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver - products",
+        "dependsOn": [
+          {
+            "activity": "Bronze - validation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "RefreshDataflow",
+        "typeProperties": {
+          "dataflowId": "88d7eaeb-4687-8fc7-4889-118768c076f2",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "notifyOption": "NoNotification",
+          "dataflowType": "DataflowFabric",
+          "executeMashupQueriesOnly": true
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver - sellers",
+        "dependsOn": [
+          {
+            "activity": "Bronze - validation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "b5733bc4-a4e3-9833-4c19-3f3a44804814",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver - geolocation",
+        "dependsOn": [
+          {
+            "activity": "Bronze - validation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "04f28fe6-6fdc-990f-4473-770574e2ae34",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver - Validation",
+        "dependsOn": [
+          {
+            "activity": "Silver - geolocation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Silver - customers",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Silver - orders",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Silver - order items",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Silver - order payments",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Silver - order reviews",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Silver - products",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Silver - sellers",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Script",
+        "typeProperties": {
+          "scripts": [
+            {
+              "text": {
+                "value": "-- =============================================================\n-- Table: dim_date\n-- Grain: One row per calendar date\n-- Source: Generated (date spine 2016-01-01 through 2018-12-31)\n-- Surrogate key: date_key (INTEGER YYYYMMDD)\n-- SCD Type: N/A (static reference table)\n-- Author: Michael Hoover | github.com/hoover180\n-- =============================================================\nIF\n    NOT EXISTS (\n        SELECT 1 FROM sys.schemas\n        WHERE name = 'Gold'\n    )\n    EXEC ('CREATE SCHEMA [Gold]');\nDROP TABLE IF EXISTS [Gold].dim_date;\nCREATE TABLE [Gold].dim_date (\n    date_key INTEGER NOT NULL,\n    full_date DATE NOT NULL,\n    [year] SMALLINT NOT NULL,  -- noqa: RF06\n    quarter SMALLINT NOT NULL,\n    quarter_name VARCHAR(10) NOT NULL,\n    [month] SMALLINT NOT NULL,  -- noqa: RF06\n    month_name VARCHAR(20) NOT NULL,\n    month_year VARCHAR(10) NOT NULL,\n    month_sort INT NOT NULL,\n    week_of_year SMALLINT NOT NULL,\n    day_of_month SMALLINT NOT NULL,\n    day_of_week SMALLINT NOT NULL,\n    day_name VARCHAR(20) NOT NULL,\n    is_weekend BIT NOT NULL,\n    is_month_end BIT NOT NULL,\n    year_offset SMALLINT NOT NULL\n);\nINSERT INTO [Gold].dim_date (\n    date_key, full_date, [year], quarter, quarter_name,  -- noqa: RF06\n    [month], month_name, month_year, month_sort, week_of_year,  -- noqa: RF06\n    day_of_month, day_of_week, day_name, is_weekend, is_month_end, year_offset\n)\nSELECT\n    CAST(FORMAT(dt, 'yyyyMMdd') AS INT) AS date_key,\n    dt AS full_date,\n    CAST(YEAR(dt) AS SMALLINT) AS [year],  -- noqa: RF06\n    CAST(DATEPART(QUARTER, dt) AS SMALLINT) AS quarter,\n    CONCAT('Q', DATEPART(QUARTER, dt)) AS quarter_name,\n    CAST(MONTH(dt) AS SMALLINT) AS [month],  -- noqa: RF06\n    DATENAME(MONTH, dt) AS month_name,\n    CONCAT(FORMAT(dt, 'MMM'), '-', YEAR(dt)) AS month_year,\n    CAST(YEAR(dt) AS INT) * 100\n    + CAST(MONTH(dt) AS INT) AS month_sort,\n    CAST(DATEPART(WEEK, dt) AS SMALLINT) AS week_of_year,\n    CAST(DAY(dt) AS SMALLINT) AS day_of_month,\n    CAST(DATEPART(WEEKDAY, dt) AS SMALLINT) AS day_of_week,\n    DATENAME(WEEKDAY, dt) AS day_name,\n    CAST(CASE WHEN DATEPART(WEEKDAY, dt) IN (1, 7) THEN 1 ELSE 0 END AS BIT)\n        AS is_weekend,\n    CAST(CASE WHEN dt = EOMONTH(dt) THEN 1 ELSE 0 END AS BIT) AS is_month_end,\n    CAST(YEAR(dt) - YEAR(GETDATE()) AS SMALLINT) AS year_offset\nFROM (\n    SELECT DATEADD(DAY, value, CAST('2016-01-01' AS DATE)) AS dt\n    FROM GENERATE_SERIES(0, DATEDIFF(DAY, '2016-01-01', '2018-12-31'))\n) AS calendar;\n",
+                "type": "Expression"
+              },
+              "type": "Query"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "02:00:00"
+        },
+        "linkedService": {
+          "name": "ecommerce_warehouse",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "1ae7b0bd-9d98-83c1-416b-5a77487b15d7",
+              "endpoint": "b5ciqai7f4ju7f2ca56lowqa2u-hqybdsb5c54enl6md3lfonq33e.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "00000000-0000-0000-0000-000000000000"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Gold - dim_date",
+        "dependsOn": [
+          {
+            "activity": "Silver - Validation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Script",
+        "typeProperties": {
+          "scripts": [
+            {
+              "text": {
+                "value": "-- =============================================================\r\n-- Table: dim_customers\r\n-- Grain: One row per unique customer (customer_unique_id)\r\n-- Source: Silver.customers LEFT JOIN Silver.geolocation\r\n-- Surrogate key: customer_key (MD5 hash of customer_unique_id)\r\n-- SCD Type: 1 (overwrite on reload)\r\n-- Note: Silver.customers grain is customer_id (order-scoped per the\r\n--   source schema — one row per order-level customer record, not per\r\n--   distinct human). Deduplication to customer_unique_id grain applied\r\n--   here at Gold load via ROW_NUMBER(), the correct layer for this\r\n--   transformation. Geolocation joined at zip-prefix level; AVG lat/lng\r\n--   guards against multi-row matches from Silver.geolocation.\r\n-- Added customer_state_country to disambiguate Brazilian state codes\r\n--   from colliding international place names (e.g. PA, AP, RO) when\r\n--   used as the Location field in a Power BI Filled Map visual.\r\n-- Author: Michael Hoover | github.com/hoover180\r\n-- =============================================================\r\n\r\nDROP TABLE IF EXISTS [Gold].dim_customers;\r\n\r\nCREATE TABLE [Gold].dim_customers (\r\n    customer_key VARCHAR(32) NOT NULL,\r\n    customer_unique_id VARCHAR(50) NOT NULL,\r\n    customer_city VARCHAR(100) NULL,\r\n    customer_state VARCHAR(2) NULL,\r\n    customer_state_country VARCHAR(40) NULL,\r\n    geolocation_lat FLOAT NULL,\r\n    geolocation_lng FLOAT NULL\r\n);\r\n\r\nWITH geo_by_zip AS (\r\n    SELECT\r\n        geolocation_zip_code_prefix,\r\n        AVG(geolocation_lat) AS geo_lat,\r\n        AVG(geolocation_lng) AS geo_lng\r\n    FROM ecommerce_lakehouse.[Silver].geolocation\r\n    GROUP BY geolocation_zip_code_prefix\r\n),\r\n\r\nlatest_customer AS (\r\n    SELECT\r\n        customer_unique_id,\r\n        customer_city,\r\n        customer_state,\r\n        customer_zip_code_prefix,\r\n        ROW_NUMBER() OVER (\r\n            PARTITION BY customer_unique_id\r\n            ORDER BY customer_id DESC\r\n        ) AS rn\r\n    FROM ecommerce_lakehouse.[Silver].customers\r\n)\r\n\r\nINSERT INTO [Gold].dim_customers (\r\n    customer_key, customer_unique_id, customer_city,\r\n    customer_state, customer_state_country, geolocation_lat, geolocation_lng\r\n)\r\nSELECT\r\n    LOWER(CONVERT(VARCHAR(32), HASHBYTES('MD5', c.customer_unique_id), 2))\r\n        AS customer_key,\r\n    c.customer_unique_id,\r\n    c.customer_city,\r\n    c.customer_state,\r\n    CASE c.customer_state\r\n        WHEN 'AC' THEN 'Acre, Brazil'\r\n        WHEN 'AL' THEN 'Alagoas, Brazil'\r\n        WHEN 'AM' THEN 'Amazonas, Brazil'\r\n        WHEN 'AP' THEN 'Amapá, Brazil'\r\n        WHEN 'BA' THEN 'Bahia, Brazil'\r\n        WHEN 'CE' THEN 'Ceará, Brazil'\r\n        WHEN 'DF' THEN 'Distrito Federal, Brazil'\r\n        WHEN 'ES' THEN 'Espírito Santo, Brazil'\r\n        WHEN 'GO' THEN 'Goiás, Brazil'\r\n        WHEN 'MA' THEN 'Maranhão, Brazil'\r\n        WHEN 'MG' THEN 'Minas Gerais, Brazil'\r\n        WHEN 'MS' THEN 'Mato Grosso do Sul, Brazil'\r\n        WHEN 'MT' THEN 'Mato Grosso, Brazil'\r\n        WHEN 'PA' THEN 'Pará, Brazil'\r\n        WHEN 'PB' THEN 'Paraíba, Brazil'\r\n        WHEN 'PE' THEN 'Pernambuco, Brazil'\r\n        WHEN 'PI' THEN 'Piauí, Brazil'\r\n        WHEN 'PR' THEN 'Paraná, Brazil'\r\n        WHEN 'RJ' THEN 'Rio de Janeiro, Brazil'\r\n        WHEN 'RN' THEN 'Rio Grande do Norte, Brazil'\r\n        WHEN 'RO' THEN 'Rondônia, Brazil'\r\n        WHEN 'RR' THEN 'Roraima, Brazil'\r\n        WHEN 'RS' THEN 'Rio Grande do Sul, Brazil'\r\n        WHEN 'SC' THEN 'Santa Catarina, Brazil'\r\n        WHEN 'SE' THEN 'Sergipe, Brazil'\r\n        WHEN 'SP' THEN 'São Paulo, Brazil'\r\n        WHEN 'TO' THEN 'Tocantins, Brazil'\r\n        ELSE c.customer_state + ', Brazil'\r\n    END AS customer_state_country,\r\n    g.geo_lat AS geolocation_lat,\r\n    g.geo_lng AS geolocation_lng\r\nFROM latest_customer AS c\r\nLEFT JOIN geo_by_zip AS g\r\n    ON c.customer_zip_code_prefix = g.geolocation_zip_code_prefix\r\nWHERE c.rn = 1;\r\n",
+                "type": "Expression"
+              },
+              "type": "Query"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "02:00:00"
+        },
+        "linkedService": {
+          "name": "ecommerce_warehouse",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "1ae7b0bd-9d98-83c1-416b-5a77487b15d7",
+              "endpoint": "b5ciqai7f4ju7f2ca56lowqa2u-hqybdsb5c54enl6md3lfonq33e.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "00000000-0000-0000-0000-000000000000"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Gold - dim_customers",
+        "dependsOn": [
+          {
+            "activity": "Silver - Validation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Script",
+        "typeProperties": {
+          "scripts": [
+            {
+              "text": {
+                "value": "-- =============================================================\r\n-- Table: dim_sellers\r\n-- Grain: One row per seller (seller_id)\r\n-- Source: Silver.sellers LEFT JOIN Silver.geolocation\r\n--         Pre-aggregated: total_orders, on_time_rate, avg_review_score\r\n-- Surrogate key: seller_key (MD5 hash of seller_id)\r\n-- SCD Type: 1 (overwrite on reload)\r\n-- Note: total_orders, on_time_rate, avg_review_score denormalized into\r\n--       dim for reporting performance (Kimball pattern).\r\n-- Note: total_orders uses COUNT(DISTINCT order_id), not COUNT(*), since\r\n--       source is order_items (item grain, not order grain).\r\n-- Note: order_reviews deduplicated via ROW_NUMBER() (most recent review\r\n--       per order) before joining, to prevent seller total_orders/\r\n--       on_time_rate inflation from duplicate review rows per order_id.\r\n-- Note: on_time_rate/sla_compliance_bucket deduplicated to (seller_id,\r\n--       order_id) grain via seller_order_grain CTE before averaging\r\n--       is_late — source join (order_items/orders) is item grain, and\r\n--       averaging is_late directly over item rows overweights sellers\r\n--       with more multi-item orders.\r\n-- Author: Michael Hoover | github.com/hoover180\r\n-- =============================================================\r\n\r\nDROP TABLE IF EXISTS [Gold].dim_sellers;\r\n\r\nCREATE TABLE [Gold].dim_sellers (\r\n    seller_key VARCHAR(32) NOT NULL,\r\n    seller_id VARCHAR(50) NOT NULL,\r\n    seller_city VARCHAR(100) NULL,\r\n    seller_state VARCHAR(2) NULL,\r\n    sla_compliance_bucket VARCHAR(10) NULL,\r\n    geolocation_lat FLOAT NULL,\r\n    geolocation_lng FLOAT NULL,\r\n    total_orders INTEGER NULL,\r\n    on_time_rate FLOAT NULL,\r\n    avg_review_score FLOAT NULL\r\n);\r\n\r\nWITH geo_by_zip AS (\r\n    SELECT\r\n        geolocation_zip_code_prefix,\r\n        AVG(geolocation_lat) AS geo_lat,\r\n        AVG(geolocation_lng) AS geo_lng\r\n    FROM ecommerce_lakehouse.[Silver].geolocation\r\n    GROUP BY geolocation_zip_code_prefix\r\n),\r\n\r\nseller_order_grain AS (\r\n    SELECT DISTINCT\r\n        oi.seller_id,\r\n        oi.order_id,\r\n        o.is_late\r\n    FROM ecommerce_lakehouse.[Silver].order_items AS oi\r\n    INNER JOIN ecommerce_lakehouse.[Silver].orders AS o\r\n        ON oi.order_id = o.order_id\r\n),\r\n\r\nlatest_review AS (\r\n    SELECT\r\n        order_id,\r\n        review_score,\r\n        ROW_NUMBER() OVER (\r\n            PARTITION BY order_id\r\n            ORDER BY review_creation_date DESC\r\n        ) AS rn\r\n    FROM ecommerce_lakehouse.[Silver].order_reviews\r\n),\r\n\r\nseller_stats AS (\r\n    SELECT\r\n        seller_order_grain.seller_id,\r\n        COUNT(DISTINCT seller_order_grain.order_id) AS total_orders,\r\n        AVG(CAST(1 - seller_order_grain.is_late AS FLOAT)) AS on_time_rate,\r\n        CASE\r\n            WHEN AVG(CAST(1 - seller_order_grain.is_late AS FLOAT)) < 0.6\r\n                THEN '0-60%'\r\n            WHEN AVG(CAST(1 - seller_order_grain.is_late AS FLOAT)) < 0.8\r\n                THEN '60-80%'\r\n            WHEN AVG(CAST(1 - seller_order_grain.is_late AS FLOAT)) < 0.9\r\n                THEN '80-90%'\r\n            ELSE '90-100%'\r\n        END AS sla_compliance_bucket,\r\n        AVG(CAST(latest_review.review_score AS FLOAT)) AS avg_review_score\r\n    FROM\r\n        seller_order_grain\r\n    LEFT JOIN latest_review\r\n        ON\r\n            seller_order_grain.order_id = latest_review.order_id\r\n            AND latest_review.rn = 1\r\n    GROUP BY seller_order_grain.seller_id\r\n)\r\n\r\nINSERT INTO [Gold].dim_sellers (\r\n    seller_key, seller_id, seller_city, seller_state,\r\n    sla_compliance_bucket,\r\n    geolocation_lat, geolocation_lng,\r\n    total_orders, on_time_rate, avg_review_score\r\n)\r\nSELECT\r\n    LOWER(CONVERT(VARCHAR(32), HASHBYTES('MD5', s.seller_id), 2)) AS seller_key,\r\n    s.seller_id,\r\n    s.seller_city,\r\n    s.seller_state,\r\n    st.sla_compliance_bucket,\r\n    g.geo_lat AS geolocation_lat,\r\n    g.geo_lng AS geolocation_lng,\r\n    st.total_orders,\r\n    st.on_time_rate,\r\n    st.avg_review_score\r\nFROM ecommerce_lakehouse.[Silver].sellers AS s\r\nLEFT JOIN geo_by_zip AS g\r\n    ON s.seller_zip_code_prefix = g.geolocation_zip_code_prefix\r\nLEFT JOIN seller_stats AS st\r\n    ON s.seller_id = st.seller_id;\r\n",
+                "type": "Expression"
+              },
+              "type": "Query"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "02:00:00"
+        },
+        "linkedService": {
+          "name": "ecommerce_warehouse",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "1ae7b0bd-9d98-83c1-416b-5a77487b15d7",
+              "endpoint": "b5ciqai7f4ju7f2ca56lowqa2u-hqybdsb5c54enl6md3lfonq33e.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "00000000-0000-0000-0000-000000000000"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Gold - dim_sellers",
+        "dependsOn": [
+          {
+            "activity": "Silver - Validation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Script",
+        "typeProperties": {
+          "scripts": [
+            {
+              "text": {
+                "value": "-- =============================================================\r\n-- Table: dim_products\r\n-- Grain: One row per product (product_id)\r\n-- Source: Silver.products (English category joined at Silver layer)\r\n-- Surrogate key: product_key (MD5 hash of product_id)\r\n-- SCD Type: 1 (overwrite on reload)\r\n-- Author: Michael Hoover | github.com/hoover180\r\n-- =============================================================\r\n\r\nDROP TABLE IF EXISTS [Gold].dim_products;\r\n\r\nCREATE TABLE [Gold].dim_products (\r\n    product_key VARCHAR(32) NOT NULL,\r\n    product_id VARCHAR(50) NOT NULL,\r\n    product_category_english VARCHAR(100) NULL,\r\n    product_weight_g INTEGER NULL,\r\n    product_length_cm INTEGER NULL,\r\n    product_height_cm INTEGER NULL,\r\n    product_width_cm INTEGER NULL\r\n);\r\n\r\nINSERT INTO [Gold].dim_products (\r\n    product_key, product_id, product_category_english,\r\n    product_weight_g, product_length_cm, product_height_cm, product_width_cm\r\n)\r\nSELECT\r\n    LOWER(CONVERT(VARCHAR(32), HASHBYTES('MD5', product_id), 2)) AS product_key,\r\n    product_id,\r\n    product_category_english,\r\n    product_weight_g,\r\n    product_length_cm,\r\n    product_height_cm,\r\n    product_width_cm\r\nFROM ecommerce_lakehouse.[Silver].products;\r\n",
+                "type": "Expression"
+              },
+              "type": "Query"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "02:00:00"
+        },
+        "linkedService": {
+          "name": "ecommerce_warehouse",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "1ae7b0bd-9d98-83c1-416b-5a77487b15d7",
+              "endpoint": "b5ciqai7f4ju7f2ca56lowqa2u-hqybdsb5c54enl6md3lfonq33e.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "00000000-0000-0000-0000-000000000000"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Gold - dim_products",
+        "dependsOn": [
+          {
+            "activity": "Silver - Validation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Script",
+        "typeProperties": {
+          "scripts": [
+            {
+              "text": {
+                "value": "-- =============================================================\r\n-- Table: fact_orders\r\n-- Grain: One row per order item (order_id + order_item_id)\r\n-- Source: Silver.orders, Silver.order_items, Silver.order_reviews,\r\n--         Silver.order_payments + all four dimension tables\r\n-- Surrogate key: order_item_key (MD5 hash of order_id + order_item_id)\r\n-- Degenerate dimensions: order_id, order_item_id, order_status\r\n-- Note: review_score sourced from most recent review per order.\r\n--       payment_value aggregated to order level from Silver.order_payments.\r\n--       customer_unique_id resolved via Silver.customers join on customer_id.\r\n--       days_late_bucket / days_late_bucket_sort added to support delivery-\r\n--       vs-review-score reporting. Built in SQL rather than DAX because\r\n--       Direct Lake semantic models do not currently support calculated\r\n--       columns. days_late is NULL for non-delivered orders, so both\r\n--       bucket columns explicitly handle NULL as \"Not Delivered\" (sort\r\n--       value -1) rather than falling into the \"7+ Days Late\" bucket.\r\n-- Author: Michael Hoover | github.com/hoover180\r\n-- =============================================================\r\n\r\nDROP TABLE IF EXISTS [Gold].fact_orders;\r\n\r\nCREATE TABLE [Gold].fact_orders (\r\n    order_item_key VARCHAR(32) NOT NULL,\r\n    order_id VARCHAR(50) NOT NULL,\r\n    order_item_id INTEGER NOT NULL,\r\n    customer_key VARCHAR(32) NOT NULL,\r\n    seller_key VARCHAR(32) NOT NULL,\r\n    product_key VARCHAR(32) NOT NULL,\r\n    order_date_key INTEGER NULL,\r\n    delivery_date_key INTEGER NULL,\r\n    estimated_delivery_date_key INTEGER NULL,\r\n    price DECIMAL(10, 2) NULL,\r\n    freight_value DECIMAL(10, 2) NULL,\r\n    payment_value DECIMAL(10, 2) NULL,\r\n    review_score SMALLINT NULL,\r\n    delivery_days INTEGER NULL,\r\n    days_late INTEGER NULL,\r\n    is_late SMALLINT NULL,\r\n    is_delivered SMALLINT NULL,\r\n    order_status VARCHAR(20) NULL,\r\n    days_late_bucket VARCHAR(20) NULL,\r\n    days_late_bucket_sort SMALLINT NULL\r\n);\r\n\r\nWITH latest_review AS (\r\n    SELECT\r\n        order_id,\r\n        review_score,\r\n        ROW_NUMBER() OVER (\r\n            PARTITION BY order_id\r\n            ORDER BY review_answer_timestamp DESC\r\n        ) AS rn\r\n    FROM ecommerce_lakehouse.[Silver].order_reviews\r\n    WHERE review_score_valid = 1\r\n),\r\n\r\npayments_agg AS (\r\n    SELECT\r\n        order_id,\r\n        SUM(payment_value) AS payment_value\r\n    FROM ecommerce_lakehouse.[Silver].order_payments\r\n    GROUP BY order_id\r\n),\r\n\r\ncustomer_lookup AS (\r\n    SELECT DISTINCT\r\n        customer_id,\r\n        customer_unique_id\r\n    FROM ecommerce_lakehouse.[Silver].customers\r\n)\r\n\r\nINSERT INTO [Gold].fact_orders (\r\n    order_item_key, order_id, order_item_id,\r\n    customer_key, seller_key, product_key,\r\n    order_date_key, delivery_date_key, estimated_delivery_date_key,\r\n    price, freight_value, payment_value,\r\n    review_score, delivery_days, days_late,\r\n    is_late, is_delivered, order_status,\r\n    days_late_bucket, days_late_bucket_sort\r\n)\r\nSELECT\r\n    LOWER(CONVERT(\r\n        VARCHAR(32),\r\n        HASHBYTES('MD5', oi.order_id + CONVERT(VARCHAR(10), oi.order_item_id)),\r\n        2\r\n    ))\r\n        AS order_item_key,\r\n    oi.order_id,\r\n    oi.order_item_id,\r\n    LOWER(CONVERT(VARCHAR(32), HASHBYTES('MD5', cl.customer_unique_id), 2))\r\n        AS customer_key,\r\n    LOWER(CONVERT(VARCHAR(32), HASHBYTES('MD5', oi.seller_id), 2))\r\n        AS seller_key,\r\n    LOWER(CONVERT(VARCHAR(32), HASHBYTES('MD5', oi.product_id), 2))\r\n        AS product_key,\r\n    CONVERT(INTEGER, FORMAT(o.order_purchase_timestamp, 'yyyyMMdd'))\r\n        AS order_date_key,\r\n    CASE\r\n        WHEN o.order_delivered_customer_date IS NOT NULL\r\n            THEN\r\n                CONVERT(\r\n                    INTEGER,\r\n                    FORMAT(o.order_delivered_customer_date, 'yyyyMMdd')\r\n                )\r\n    END AS delivery_date_key,\r\n    CASE\r\n        WHEN o.order_estimated_delivery_date IS NOT NULL\r\n            THEN\r\n                CONVERT(\r\n                    INTEGER,\r\n                    FORMAT(o.order_estimated_delivery_date, 'yyyyMMdd')\r\n                )\r\n    END AS estimated_delivery_date_key,\r\n    oi.price,\r\n    oi.freight_value,\r\n    pa.payment_value,\r\n    CONVERT(SMALLINT, lr.review_score) AS review_score,\r\n    o.delivery_days,\r\n    o.days_late,\r\n    CONVERT(SMALLINT, o.is_late) AS is_late,\r\n    CONVERT(SMALLINT, o.is_delivered) AS is_delivered,\r\n    o.order_status,\r\n    CASE\r\n        WHEN o.days_late IS NULL THEN 'Not Delivered'\r\n        WHEN o.days_late <= 0 THEN 'On-Time'\r\n        WHEN o.days_late <= 3 THEN '1-3 Days Late'\r\n        WHEN o.days_late <= 6 THEN '4-6 Days Late'\r\n        ELSE '7+ Days Late'\r\n    END AS days_late_bucket,\r\n    CASE\r\n        WHEN o.days_late IS NULL THEN -1\r\n        WHEN o.days_late <= 0 THEN 0\r\n        WHEN o.days_late <= 3 THEN 1\r\n        WHEN o.days_late <= 6 THEN 2\r\n        ELSE 3\r\n    END AS days_late_bucket_sort\r\nFROM ecommerce_lakehouse.[Silver].order_items AS oi\r\nINNER JOIN ecommerce_lakehouse.[Silver].orders AS o\r\n    ON oi.order_id = o.order_id\r\nINNER JOIN customer_lookup AS cl\r\n    ON o.customer_id = cl.customer_id\r\nINNER JOIN [Gold].dim_customers AS dc\r\n    ON\r\n        LOWER(CONVERT(VARCHAR(32), HASHBYTES('MD5', cl.customer_unique_id), 2))\r\n        = dc.customer_key\r\nINNER JOIN [Gold].dim_sellers AS ds\r\n    ON\r\n        LOWER(CONVERT(VARCHAR(32), HASHBYTES('MD5', oi.seller_id), 2))\r\n        = ds.seller_key\r\nINNER JOIN [Gold].dim_products AS dp\r\n    ON\r\n        LOWER(CONVERT(VARCHAR(32), HASHBYTES('MD5', oi.product_id), 2))\r\n        = dp.product_key\r\nLEFT JOIN latest_review AS lr\r\n    ON oi.order_id = lr.order_id AND lr.rn = 1\r\nLEFT JOIN payments_agg AS pa\r\n    ON oi.order_id = pa.order_id;\r\n",
+                "type": "Expression"
+              },
+              "type": "Query"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "02:00:00"
+        },
+        "linkedService": {
+          "name": "ecommerce_warehouse",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "1ae7b0bd-9d98-83c1-416b-5a77487b15d7",
+              "endpoint": "b5ciqai7f4ju7f2ca56lowqa2u-hqybdsb5c54enl6md3lfonq33e.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "00000000-0000-0000-0000-000000000000"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Gold - fact_orders",
+        "dependsOn": [
+          {
+            "activity": "Gold - dim_date",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Gold - dim_customers",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Gold - dim_sellers",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Gold - dim_products",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Script",
+        "typeProperties": {
+          "scripts": [
+            {
+              "text": {
+                "value": "-- =============================================================\r\n-- Table: gold_quality_log\r\n-- Purpose: Persists results of the five Gold-layer validation\r\n--          checks (val_surrogate_keys, val_referential_integrity,\r\n--          val_fact_orders_completeness, val_review_scores,\r\n--          val_revenue) each time this script runs, matching the\r\n--          bronze_quality_log / silver_quality_log pattern.\r\n-- Note: Bronze/Silver logging happens from PySpark notebooks against\r\n--       Delta tables; Gold validation runs entirely in T-SQL against\r\n--       the warehouse, so this table and its population script are\r\n--       T-SQL-native.\r\n-- Note: run_timestamp has no DEFAULT constraint — Fabric Warehouse does\r\n--       not support DEFAULT in CREATE TABLE. The timestamp is captured\r\n--       once into a variable and supplied explicitly in every branch.\r\n-- Author: Michael Hoover | github.com/hoover180\r\n-- =============================================================\r\n\r\nIF\r\n    NOT EXISTS (\r\n        SELECT 1 FROM sys.tables\r\n        WHERE\r\n            name = 'gold_quality_log' AND schema_id = SCHEMA_ID('Gold')\r\n    )\r\n    CREATE TABLE [Gold].gold_quality_log (\r\n        check_name VARCHAR(100) NOT NULL,\r\n        result VARCHAR(10) NOT NULL,\r\n        detail VARCHAR(200) NULL,\r\n        run_timestamp DATETIME2(6) NOT NULL\r\n    );\r\n\r\n-- =============================================================\r\n-- Run all five validation checks and log each result.\r\n-- Re-run this script any time Gold is rebuilt to get a fresh log entry.\r\n-- =============================================================\r\n\r\nDECLARE @run_ts DATETIME2(6) = SYSUTCDATETIME();\r\n\r\nWITH fact_count AS (\r\n    SELECT COUNT(*) AS row_count\r\n    FROM [Gold].fact_orders\r\n),\r\n\r\nsilver_order_items_count AS (\r\n    SELECT COUNT(*) AS row_count\r\n    FROM ecommerce_lakehouse.[Silver].order_items\r\n),\r\n\r\nfact_revenue AS (\r\n    SELECT SUM(payment_value) AS revenue_total\r\n    FROM (\r\n        SELECT DISTINCT\r\n            order_id,\r\n            payment_value\r\n        FROM [Gold].fact_orders\r\n        WHERE payment_value IS NOT NULL\r\n    ) AS ft\r\n),\r\n\r\nsilver_revenue AS (\r\n    SELECT SUM(op.payment_value) AS revenue_total\r\n    FROM ecommerce_lakehouse.[Silver].order_payments AS op\r\n    WHERE EXISTS (\r\n        SELECT 1\r\n        FROM ecommerce_lakehouse.[Silver].order_items AS oi\r\n        WHERE oi.order_id = op.order_id\r\n    )\r\n)\r\n\r\nINSERT INTO [Gold].gold_quality_log (check_name, result, detail, run_timestamp)\r\nSELECT\r\n    'null_customer_key' AS check_name,\r\n    CASE WHEN COUNT(*) = 0 THEN 'PASS' ELSE 'FAIL' END AS result,\r\n    CONCAT('null_count=', COUNT(*)) AS detail,\r\n    @run_ts AS run_timestamp\r\nFROM [Gold].fact_orders\r\nWHERE customer_key IS NULL\r\n\r\nUNION ALL\r\n\r\nSELECT\r\n    'null_seller_key' AS check_name,\r\n    CASE WHEN COUNT(*) = 0 THEN 'PASS' ELSE 'FAIL' END AS result,\r\n    CONCAT('null_count=', COUNT(*)) AS detail,\r\n    @run_ts AS run_timestamp\r\nFROM [Gold].fact_orders\r\nWHERE seller_key IS NULL\r\n\r\nUNION ALL\r\n\r\nSELECT\r\n    'null_product_key' AS check_name,\r\n    CASE WHEN COUNT(*) = 0 THEN 'PASS' ELSE 'FAIL' END AS result,\r\n    CONCAT('null_count=', COUNT(*)) AS detail,\r\n    @run_ts AS run_timestamp\r\nFROM [Gold].fact_orders\r\nWHERE product_key IS NULL\r\n\r\nUNION ALL\r\n\r\nSELECT\r\n    'null_order_date_key' AS check_name,\r\n    CASE WHEN COUNT(*) = 0 THEN 'PASS' ELSE 'FAIL' END AS result,\r\n    CONCAT('null_count=', COUNT(*)) AS detail,\r\n    @run_ts AS run_timestamp\r\nFROM [Gold].fact_orders\r\nWHERE order_date_key IS NULL\r\n\r\nUNION ALL\r\n\r\nSELECT\r\n    'customer_key_orphans' AS check_name,\r\n    CASE WHEN COUNT(*) = 0 THEN 'PASS' ELSE 'FAIL' END AS result,\r\n    CONCAT('orphan_count=', COUNT(*)) AS detail,\r\n    @run_ts AS run_timestamp\r\nFROM [Gold].fact_orders AS f\r\nLEFT JOIN [Gold].dim_customers AS dc ON f.customer_key = dc.customer_key\r\nWHERE dc.customer_key IS NULL\r\n\r\nUNION ALL\r\n\r\nSELECT\r\n    'seller_key_orphans' AS check_name,\r\n    CASE WHEN COUNT(*) = 0 THEN 'PASS' ELSE 'FAIL' END AS result,\r\n    CONCAT('orphan_count=', COUNT(*)) AS detail,\r\n    @run_ts AS run_timestamp\r\nFROM [Gold].fact_orders AS f\r\nLEFT JOIN [Gold].dim_sellers AS ds ON f.seller_key = ds.seller_key\r\nWHERE ds.seller_key IS NULL\r\n\r\nUNION ALL\r\n\r\nSELECT\r\n    'product_key_orphans' AS check_name,\r\n    CASE WHEN COUNT(*) = 0 THEN 'PASS' ELSE 'FAIL' END AS result,\r\n    CONCAT('orphan_count=', COUNT(*)) AS detail,\r\n    @run_ts AS run_timestamp\r\nFROM [Gold].fact_orders AS f\r\nLEFT JOIN [Gold].dim_products AS dp ON f.product_key = dp.product_key\r\nWHERE dp.product_key IS NULL\r\n\r\nUNION ALL\r\n\r\nSELECT\r\n    'order_date_key_orphans' AS check_name,\r\n    CASE WHEN COUNT(*) = 0 THEN 'PASS' ELSE 'FAIL' END AS result,\r\n    CONCAT('orphan_count=', COUNT(*)) AS detail,\r\n    @run_ts AS run_timestamp\r\nFROM [Gold].fact_orders AS f\r\nLEFT JOIN [Gold].dim_date AS dd ON f.order_date_key = dd.date_key\r\nWHERE dd.date_key IS NULL AND f.order_date_key IS NOT NULL\r\n\r\nUNION ALL\r\n\r\nSELECT\r\n    'fact_vs_silver_order_items' AS check_name,\r\n    CASE\r\n        WHEN fc.row_count = sc.row_count THEN 'PASS'\r\n        ELSE 'FAIL'\r\n    END AS result,\r\n    CONCAT('fact=', fc.row_count, ' silver=', sc.row_count) AS detail,\r\n    @run_ts AS run_timestamp\r\nFROM fact_count AS fc\r\nCROSS JOIN silver_order_items_count AS sc\r\n\r\nUNION ALL\r\n\r\nSELECT\r\n    'review_score_out_of_range' AS check_name,\r\n    CASE WHEN COUNT(*) = 0 THEN 'PASS' ELSE 'FAIL' END AS result,\r\n    CONCAT('count=', COUNT(*)) AS detail,\r\n    @run_ts AS run_timestamp\r\nFROM [Gold].fact_orders\r\nWHERE\r\n    review_score IS NOT NULL\r\n    AND review_score NOT BETWEEN 1 AND 5\r\n\r\nUNION ALL\r\n\r\nSELECT\r\n    'review_score_null_count' AS check_name,\r\n    CASE WHEN COUNT(*) <= 1500 THEN 'PASS' ELSE 'FAIL' END AS result,\r\n    CONCAT('null_count=', COUNT(*)) AS detail,\r\n    @run_ts AS run_timestamp\r\nFROM [Gold].fact_orders\r\nWHERE review_score IS NULL\r\n\r\nUNION ALL\r\n\r\nSELECT\r\n    'revenue_reconciliation' AS check_name,\r\n    CASE\r\n        WHEN\r\n            ABS(fr.revenue_total - sr.revenue_total)\r\n            / NULLIF(sr.revenue_total, 0) * 100 <= 1.0\r\n            THEN 'PASS'\r\n        ELSE 'FAIL'\r\n    END AS result,\r\n    CONCAT(\r\n        'fact=', ROUND(fr.revenue_total, 2),\r\n        ' silver=', ROUND(sr.revenue_total, 2)\r\n    ) AS detail,\r\n    @run_ts AS run_timestamp\r\nFROM fact_revenue AS fr\r\nCROSS JOIN silver_revenue AS sr;\r\n\r\n-- Review this run's results:\r\nSELECT\r\n    check_name,\r\n    result,\r\n    detail,\r\n    run_timestamp\r\nFROM [Gold].gold_quality_log\r\nWHERE run_timestamp = @run_ts\r\nORDER BY check_name;\r\n",
+                "type": "Expression"
+              },
+              "type": "Query"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "02:00:00"
+        },
+        "linkedService": {
+          "name": "ecommerce_warehouse",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "1ae7b0bd-9d98-83c1-416b-5a77487b15d7",
+              "endpoint": "b5ciqai7f4ju7f2ca56lowqa2u-hqybdsb5c54enl6md3lfonq33e.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "00000000-0000-0000-0000-000000000000"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Gold - validation",
+        "dependsOn": [
+          {
+            "activity": "Gold - fact_orders",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
