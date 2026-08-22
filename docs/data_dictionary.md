@@ -192,5 +192,20 @@ reconciliation) — **all 12 passing.** Revenue reconciliation:
 `Silver.order_payments` (scoped via `EXISTS` to orders with matching
 `order_items` rows) — **R$15,846,280.17 on both sides, 0% variance.**
 
-_Updated: Phase 3 complete — Gold star schema (4 dimensions, 1 fact
-table) built and validated against Silver, 12/12 quality checks passing._
+---
+
+## Phase 4 — Orchestration, Validation Gates, Incremental Loading
+
+Full Bronze → Silver → Gold orchestration pipeline
+(`pl_ecommerce_orchestration`) with fail-fast validation gates after
+each layer — tested against a deliberate Bronze schema-drift failure,
+confirmed it halts all downstream execution. `orders`, `order_items`,
+and `order_reviews` converted from full-replace to genuine watermark-
+based incremental loading; the remaining 6 Bronze tables are correctly
+full-replace, having no natural business timestamp to filter on. Full
+three-run proof (full load → no-op → incremental-only) documented in
+`docs/incremental_load_proof.md`.
+
+_Updated: Phase 4 complete — orchestration pipeline with fail-fast
+validation gates, incremental loading (orders/order_items/order_reviews),
+full three-run proof documented in docs/incremental_load_proof.md._
