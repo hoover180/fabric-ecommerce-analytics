@@ -27,7 +27,6 @@ IF
         detail VARCHAR(200) NULL,
         run_timestamp DATETIME2(6) NOT NULL
     );
-GO
 
 -- =============================================================
 -- Run all five validation checks and log each result.
