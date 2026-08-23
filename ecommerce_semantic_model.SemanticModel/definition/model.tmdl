@@ -10,11 +10,14 @@ annotation __PBI_TimeIntelligenceEnabled = 1
 
 annotation PBI_QueryOrder = ["DirectLake - ecommerce_warehouse"]
 
-annotation PBI_ProTooling = ["DirectLakeOnOneLakeInWeb","WebModelingEdit"]
+annotation PBI_ProTooling = ["DirectLakeOnOneLakeInWeb","WebModelingEdit","DaxQueryView_Desktop"]
 
 ref table dim_date
 ref table dim_sellers
 ref table dim_products
 ref table dim_customers
 ref table fact_orders
+
+ref role region_rls
+ref role seller_rls
 
