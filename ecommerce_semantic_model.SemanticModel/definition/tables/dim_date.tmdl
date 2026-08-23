@@ -1,6 +1,7 @@
 table dim_date
 	lineageTag: 2174d5f2-fac2-4ef8-a889-fa2742527299
 	sourceLineageTag: [Gold].[dim_date]
+	dataCategory: Time
 
 	column date_key
 		dataType: int64
@@ -14,6 +15,7 @@ table dim_date
 
 	column full_date
 		dataType: dateTime
+		isKey
 		formatString: General Date
 		lineageTag: 2908183a-a97e-4dda-b025-689af3bce03d
 		sourceLineageTag: full_date
