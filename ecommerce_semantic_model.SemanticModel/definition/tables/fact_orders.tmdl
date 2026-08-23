@@ -62,7 +62,7 @@ table fact_orders
 		formatString: 0
 		lineageTag: 96031834-45f2-4ad0-a9b1-807df4d923f9
 		sourceLineageTag: order_date_key
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: order_date_key
 
 		annotation SummarizationSetBy = Automatic

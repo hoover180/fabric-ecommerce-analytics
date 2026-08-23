@@ -51,7 +51,7 @@ table dim_sellers
 		dataType: double
 		lineageTag: 6f882f5f-13ed-4fe5-95ee-775448e545c5
 		sourceLineageTag: geolocation_lat
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: geolocation_lat
 
 		annotation SummarizationSetBy = Automatic
@@ -62,7 +62,7 @@ table dim_sellers
 		dataType: double
 		lineageTag: d60a6707-6c33-4b93-a06b-2f8f7b67f425
 		sourceLineageTag: geolocation_lng
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: geolocation_lng
 
 		annotation SummarizationSetBy = Automatic
@@ -74,7 +74,7 @@ table dim_sellers
 		formatString: 0
 		lineageTag: 56e7fac0-b2c2-4902-a7c3-6ee934f5e54a
 		sourceLineageTag: total_orders
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: total_orders
 
 		annotation SummarizationSetBy = Automatic
@@ -83,7 +83,7 @@ table dim_sellers
 		dataType: double
 		lineageTag: 449166ae-4e86-4cd7-915e-beb4311e2416
 		sourceLineageTag: on_time_rate
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: on_time_rate
 
 		annotation SummarizationSetBy = Automatic
@@ -94,7 +94,7 @@ table dim_sellers
 		dataType: double
 		lineageTag: 14feeaef-2f39-4e85-bac6-95fda28ecf53
 		sourceLineageTag: avg_review_score
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: avg_review_score
 
 		annotation SummarizationSetBy = Automatic

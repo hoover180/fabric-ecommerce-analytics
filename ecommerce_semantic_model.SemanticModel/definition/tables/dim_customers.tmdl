@@ -51,7 +51,7 @@ table dim_customers
 		dataType: double
 		lineageTag: e0898a77-d0ec-4089-9bea-61c63a333c39
 		sourceLineageTag: geolocation_lat
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: geolocation_lat
 
 		annotation SummarizationSetBy = Automatic
@@ -62,7 +62,7 @@ table dim_customers
 		dataType: double
 		lineageTag: 2e4f872b-72a5-46af-a7d0-2cb3ce2417b8
 		sourceLineageTag: geolocation_lng
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: geolocation_lng
 
 		annotation SummarizationSetBy = Automatic

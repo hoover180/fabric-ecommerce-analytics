@@ -7,7 +7,7 @@ table dim_date
 		formatString: 0
 		lineageTag: ec789210-a465-47bf-b5f3-684654ce364f
 		sourceLineageTag: date_key
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: date_key
 
 		annotation SummarizationSetBy = Automatic
@@ -27,7 +27,7 @@ table dim_date
 		formatString: 0
 		lineageTag: 733315db-6003-46b9-8cd5-fed2141b849d
 		sourceLineageTag: year
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: year
 
 		annotation SummarizationSetBy = Automatic
@@ -37,7 +37,7 @@ table dim_date
 		formatString: 0
 		lineageTag: aa0d4bc4-b208-45b9-ba08-f6667f4f9ed3
 		sourceLineageTag: quarter
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: quarter
 
 		annotation SummarizationSetBy = Automatic
@@ -56,7 +56,7 @@ table dim_date
 		formatString: 0
 		lineageTag: e8a86785-f1f1-42e4-97f7-936d14f643ac
 		sourceLineageTag: month
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: month
 
 		annotation SummarizationSetBy = Automatic
@@ -84,7 +84,7 @@ table dim_date
 		formatString: 0
 		lineageTag: 38bd0217-2a6d-4374-b814-cdc9ff670014
 		sourceLineageTag: month_sort
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: month_sort
 
 		annotation SummarizationSetBy = Automatic
@@ -94,7 +94,7 @@ table dim_date
 		formatString: 0
 		lineageTag: 1850fe1f-89f3-4ab9-8933-bb8eec58d232
 		sourceLineageTag: week_of_year
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: week_of_year
 
 		annotation SummarizationSetBy = Automatic
@@ -104,7 +104,7 @@ table dim_date
 		formatString: 0
 		lineageTag: 2c7ad1ac-82d5-423a-b6db-e83b670d80ee
 		sourceLineageTag: day_of_month
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: day_of_month
 
 		annotation SummarizationSetBy = Automatic
@@ -114,7 +114,7 @@ table dim_date
 		formatString: 0
 		lineageTag: c3284c7b-3f86-4f68-973b-80d1c1621607
 		sourceLineageTag: day_of_week
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: day_of_week
 
 		annotation SummarizationSetBy = Automatic
@@ -153,7 +153,7 @@ table dim_date
 		formatString: 0
 		lineageTag: 403a64a5-7aef-4c8e-89a6-0de4f334645f
 		sourceLineageTag: year_offset
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: year_offset
 
 		annotation SummarizationSetBy = Automatic
