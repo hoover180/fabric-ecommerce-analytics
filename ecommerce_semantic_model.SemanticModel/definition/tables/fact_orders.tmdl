@@ -1,0 +1,210 @@
+table fact_orders
+	lineageTag: 1f3f301b-2815-4b1f-90c4-919680844b18
+	sourceLineageTag: [Gold].[fact_orders]
+
+	column order_item_key
+		dataType: string
+		lineageTag: 570cb41f-3da2-40f9-b6da-b620cfe207f4
+		sourceLineageTag: order_item_key
+		summarizeBy: none
+		sourceColumn: order_item_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_id
+		dataType: string
+		lineageTag: 2bc6e82d-f2ea-479b-8b76-d484747bd13b
+		sourceLineageTag: order_id
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_item_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 4472d864-2b33-4e79-a8cf-1d3c1a571fd8
+		sourceLineageTag: order_item_id
+		summarizeBy: sum
+		sourceColumn: order_item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_key
+		dataType: string
+		lineageTag: 6169192c-28f2-4c9f-85b2-16fcf52d48ff
+		sourceLineageTag: customer_key
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column seller_key
+		dataType: string
+		lineageTag: bfb6d2e2-e841-47f5-ba50-9a4618d85802
+		sourceLineageTag: seller_key
+		summarizeBy: none
+		sourceColumn: seller_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_key
+		dataType: string
+		lineageTag: b848c120-9fff-4541-8bcb-ba45608f5e6b
+		sourceLineageTag: product_key
+		summarizeBy: none
+		sourceColumn: product_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 96031834-45f2-4ad0-a9b1-807df4d923f9
+		sourceLineageTag: order_date_key
+		summarizeBy: sum
+		sourceColumn: order_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 9610ae88-94c9-4e47-92e5-3cb72b302c25
+		sourceLineageTag: delivery_date_key
+		summarizeBy: sum
+		sourceColumn: delivery_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column estimated_delivery_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 9d530926-8571-4c41-8f05-e6be9ba45001
+		sourceLineageTag: estimated_delivery_date_key
+		summarizeBy: sum
+		sourceColumn: estimated_delivery_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column price
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: dc0f0b12-438b-4caf-ab41-1c5e99f366ed
+		sourceLineageTag: price
+		summarizeBy: sum
+		sourceColumn: price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column freight_value
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 86f9dd8f-63a6-4815-bc7f-7e4b24d137e5
+		sourceLineageTag: freight_value
+		summarizeBy: sum
+		sourceColumn: freight_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column payment_value
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 022eaaa3-ffca-4482-b10e-976ba4ad3664
+		sourceLineageTag: payment_value
+		summarizeBy: sum
+		sourceColumn: payment_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column review_score
+		dataType: int64
+		formatString: 0
+		lineageTag: 1a812255-2ea6-486b-97de-d713f06ab6ab
+		sourceLineageTag: review_score
+		summarizeBy: sum
+		sourceColumn: review_score
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_days
+		dataType: int64
+		formatString: 0
+		lineageTag: 5e617801-ba7b-4064-bb80-8629e0388163
+		sourceLineageTag: delivery_days
+		summarizeBy: sum
+		sourceColumn: delivery_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_late
+		dataType: int64
+		formatString: 0
+		lineageTag: a7c2c73a-ed95-475a-b968-aeb861f2c162
+		sourceLineageTag: days_late
+		summarizeBy: sum
+		sourceColumn: days_late
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_late
+		dataType: int64
+		formatString: 0
+		lineageTag: fe049e95-8fc9-4415-8002-a7382c5d2c57
+		sourceLineageTag: is_late
+		summarizeBy: sum
+		sourceColumn: is_late
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_delivered
+		dataType: int64
+		formatString: 0
+		lineageTag: e2277186-cf99-4b07-9a58-ed3b28587abb
+		sourceLineageTag: is_delivered
+		summarizeBy: sum
+		sourceColumn: is_delivered
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_status
+		dataType: string
+		lineageTag: 782df388-b805-4179-9657-cf00b668d6c5
+		sourceLineageTag: order_status
+		summarizeBy: none
+		sourceColumn: order_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_late_bucket
+		dataType: string
+		lineageTag: e367acc1-f231-4efc-915d-35dbbd192db1
+		sourceLineageTag: days_late_bucket
+		summarizeBy: none
+		sourceColumn: days_late_bucket
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_late_bucket_sort
+		dataType: int64
+		formatString: 0
+		lineageTag: 12ddbf81-8d90-4ca0-bece-095a8543bd00
+		sourceLineageTag: days_late_bucket_sort
+		summarizeBy: sum
+		sourceColumn: days_late_bucket_sort
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_orders = entity
+		mode: directLake
+		source
+			entityName: fact_orders
+			schemaName: Gold
+			expressionSource: 'DirectLake - ecommerce_warehouse'
+

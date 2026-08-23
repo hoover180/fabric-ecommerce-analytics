@@ -1,0 +1,78 @@
+table dim_products
+	lineageTag: 5fbdebf7-ece4-46ac-a7a7-c70057c76f0d
+	sourceLineageTag: [Gold].[dim_products]
+
+	column product_key
+		dataType: string
+		lineageTag: f96831fc-c5b1-4296-a790-28dd2ff6601e
+		sourceLineageTag: product_key
+		summarizeBy: none
+		sourceColumn: product_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: string
+		lineageTag: c9caf7f1-c2df-40a8-8f5a-da0fa15cd532
+		sourceLineageTag: product_id
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_category_english
+		dataType: string
+		lineageTag: d656b8cf-d172-43e7-ae11-70a6480b7fde
+		sourceLineageTag: product_category_english
+		summarizeBy: none
+		sourceColumn: product_category_english
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_weight_g
+		dataType: int64
+		formatString: 0
+		lineageTag: ec24fb2b-9dfe-47ab-b1b3-56187506b5fb
+		sourceLineageTag: product_weight_g
+		summarizeBy: sum
+		sourceColumn: product_weight_g
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_length_cm
+		dataType: int64
+		formatString: 0
+		lineageTag: 47940f71-b4eb-4b26-9458-58e442fac065
+		sourceLineageTag: product_length_cm
+		summarizeBy: sum
+		sourceColumn: product_length_cm
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_height_cm
+		dataType: int64
+		formatString: 0
+		lineageTag: ec5893c4-9404-43e1-accf-45f30db79fd7
+		sourceLineageTag: product_height_cm
+		summarizeBy: sum
+		sourceColumn: product_height_cm
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_width_cm
+		dataType: int64
+		formatString: 0
+		lineageTag: 9114e639-f6db-407c-a85b-4f5c8da9cc86
+		sourceLineageTag: product_width_cm
+		summarizeBy: sum
+		sourceColumn: product_width_cm
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_products = entity
+		mode: directLake
+		source
+			entityName: dim_products
+			schemaName: Gold
+			expressionSource: 'DirectLake - ecommerce_warehouse'
+

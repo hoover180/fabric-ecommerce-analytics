@@ -1,0 +1,110 @@
+table dim_sellers
+	lineageTag: 1a4b8b51-bf95-46c2-a236-0d32dd4836ae
+	sourceLineageTag: [Gold].[dim_sellers]
+
+	column seller_key
+		dataType: string
+		lineageTag: 4fbafc34-8b2f-4737-89b7-9d7aefe6beb6
+		sourceLineageTag: seller_key
+		summarizeBy: none
+		sourceColumn: seller_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column seller_id
+		dataType: string
+		lineageTag: d2615444-a66c-46a8-831a-c82a08fa7466
+		sourceLineageTag: seller_id
+		summarizeBy: none
+		sourceColumn: seller_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column seller_city
+		dataType: string
+		lineageTag: 746f58be-458c-4c27-b237-f73ec9094c61
+		sourceLineageTag: seller_city
+		summarizeBy: none
+		sourceColumn: seller_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column seller_state
+		dataType: string
+		lineageTag: 5f9414f5-a15c-4202-8f2c-b577c43e3c73
+		sourceLineageTag: seller_state
+		summarizeBy: none
+		sourceColumn: seller_state
+
+		annotation SummarizationSetBy = Automatic
+
+	column sla_compliance_bucket
+		dataType: string
+		lineageTag: b968a335-b09f-46f5-bf30-ff5af07010dc
+		sourceLineageTag: sla_compliance_bucket
+		summarizeBy: none
+		sourceColumn: sla_compliance_bucket
+
+		annotation SummarizationSetBy = Automatic
+
+	column geolocation_lat
+		dataType: double
+		lineageTag: 6f882f5f-13ed-4fe5-95ee-775448e545c5
+		sourceLineageTag: geolocation_lat
+		summarizeBy: sum
+		sourceColumn: geolocation_lat
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column geolocation_lng
+		dataType: double
+		lineageTag: d60a6707-6c33-4b93-a06b-2f8f7b67f425
+		sourceLineageTag: geolocation_lng
+		summarizeBy: sum
+		sourceColumn: geolocation_lng
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_orders
+		dataType: int64
+		formatString: 0
+		lineageTag: 56e7fac0-b2c2-4902-a7c3-6ee934f5e54a
+		sourceLineageTag: total_orders
+		summarizeBy: sum
+		sourceColumn: total_orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column on_time_rate
+		dataType: double
+		lineageTag: 449166ae-4e86-4cd7-915e-beb4311e2416
+		sourceLineageTag: on_time_rate
+		summarizeBy: sum
+		sourceColumn: on_time_rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_review_score
+		dataType: double
+		lineageTag: 14feeaef-2f39-4e85-bac6-95fda28ecf53
+		sourceLineageTag: avg_review_score
+		summarizeBy: sum
+		sourceColumn: avg_review_score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition dim_sellers = entity
+		mode: directLake
+		source
+			entityName: dim_sellers
+			schemaName: Gold
+			expressionSource: 'DirectLake - ecommerce_warehouse'
+
