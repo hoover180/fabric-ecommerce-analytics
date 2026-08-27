@@ -181,7 +181,7 @@ table _Measures
 			
 			CALCULATE([Avg Review Score], fact_orders[order_status] = "delivered")
 		formatString: 0.00
-		displayFolder: Delivery
+		displayFolder: Quality
 		lineageTag: 7cb32c49-67f0-4508-99f4-85453206eb05
 
 		changedProperty = Name
@@ -200,6 +200,7 @@ table _Measures
 			    DATESINPERIOD(dim_date[full_date], LASTDATE(dim_date[full_date]), -3, MONTH)
 			)
 		formatString: 0.00
+		displayFolder: Quality
 		lineageTag: 18f76cf9-ecbd-455b-b9fd-66d2c0fa39f3
 
 		changedProperty = Name
@@ -207,6 +208,78 @@ table _Measures
 		changedProperty = FormatString
 
 		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+	/// Count of distinct customers (customer_key), which is derived from customer_unique_id — the real person, not the order-scoped customer_id.
+	measure 'Total Customers' = DISTINCTCOUNT(fact_orders[customer_key])
+		formatString: #,0
+		displayFolder: Customer
+		lineageTag: 7ff1d2ca-f19c-42cb-9828-a8182627f15c
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+	/// Percentage of customers with 2+ distinct orders in the current filter context. Period-aware, not lifetime — will change under a date slicer. customer_key verified derived from customer_unique_id.
+	measure 'Repeat Customer Rate' =
+			
+			VAR CustomerOrderCounts =
+			    ADDCOLUMNS(
+			        VALUES(fact_orders[customer_key]),
+			        "cnt", CALCULATE(DISTINCTCOUNT(fact_orders[order_id]))
+			    )
+			VAR RepeatCustomers = COUNTROWS(FILTER(CustomerOrderCounts, [cnt] >= 2))
+			VAR TotalCustomers = COUNTROWS(CustomerOrderCounts)
+			RETURN
+			    DIVIDE(RepeatCustomers, TotalCustomers)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Customer
+		lineageTag: 3b53702b-ea44-47e7-aba1-f2af8b79157f
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+	/// Revenue per customer in the current filter context (Total Revenue / Total Customers).
+	measure 'Avg Revenue per Customer' = DIVIDE([Total Revenue], [Total Customers])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Customer
+		lineageTag: 06d1f2cf-3352-4b43-a821-b4246d486656
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	/// Total Revenue divided by Total Orders.
+	measure 'Avg Order Value' = DIVIDE([Total Revenue], [Total Orders])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Customer
+		lineageTag: 8d6f7b11-c0f9-47c7-91b3-be9e2ade7dd5
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
 
 	column dummy_column
 		dataType: boolean
