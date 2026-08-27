@@ -1,0 +1,70 @@
+table _Measures
+	lineageTag: 579dda71-774e-43bc-a805-d9d3431859e0
+	sourceLineageTag: [Gold].[_Measures]
+
+	/// Total order revenue, de-duplicated to order grain. payment_value is order-level data broadcast across item-grain fact_orders rows; SUMX over distinct order_id with CALCULATE(MAX(...)) prevents double-counting multi-item orders. Validated: R$15,846,280.17 unfiltered.
+	measure 'Total Revenue' = SUMX(VALUES(fact_orders[order_id]), CALCULATE(MAX(fact_orders[payment_value])))
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Revenue
+		lineageTag: 39a3bcc5-22e5-43e9-9133-a2d2e248d535
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	/// Year-over-year change in Total Revenue vs. the same period last year. Requires dim_date marked as Date Table. Blank wherever no prior-year data exists in the selected period.
+	measure 'YoY Revenue' = [Total Revenue] - CALCULATE([Total Revenue], SAMEPERIODLASTYEAR(dim_date[full_date]))
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Revenue
+		lineageTag: cdd504e2-71d4-4332-b432-d4899ce98eb9
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Description
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	/// YoY Revenue expressed as a percentage of the prior-year period's revenue. Undefined (blank) wherever the selected period has no corresponding prior-year data — not only the dataset's earliest period specifically.
+	measure 'YoY Revenue %' = DIVIDE([YoY Revenue], CALCULATE([Total Revenue], SAMEPERIODLASTYEAR(dim_date[full_date])))
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Revenue
+		lineageTag: d3bb19ab-e819-49ad-a7f0-0d6c5d46bb9b
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+	column dummy_column
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 06755fa8-fb99-4ee0-89bc-63252e1304e3
+		sourceLineageTag: dummy_column
+		summarizeBy: none
+		sourceColumn: dummy_column
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = entity
+		mode: directLake
+		source
+			entityName: _Measures
+			schemaName: Gold
+			expressionSource: 'DirectLake - ecommerce_warehouse'
+
