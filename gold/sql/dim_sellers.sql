@@ -10,13 +10,23 @@
 -- Note: total_orders uses COUNT(DISTINCT order_id), not COUNT(*), since
 --       source is order_items (item grain, not order grain).
 -- Note: order_reviews deduplicated via ROW_NUMBER() (most recent review
---       per order) before joining, to prevent seller total_orders/
---       on_time_rate inflation from duplicate review rows per order_id.
+--       per order, tie-broken by review_answer_timestamp -- when the
+--       customer actually submitted it, not when the survey was sent --
+--       matching fact_orders.sql's latest_review CTE for consistency)
+--       before joining, to prevent duplicate review rows per order_id
+--       from affecting avg_review_score.
 -- Note: on_time_rate/sla_compliance_bucket deduplicated to (seller_id,
 --       order_id) grain via seller_order_grain CTE before averaging
---       is_late — source join (order_items/orders) is item grain, and
+--       is_late -- source join (order_items/orders) is item grain, and
 --       averaging is_late directly over item rows overweights sellers
 --       with more multi-item orders.
+-- Note: on_time_rate/sla_compliance_bucket restricted to delivered
+--       orders only (is_delivered = 1); total_orders intentionally
+--       stays all-status as a volume metric. Without this restriction,
+--       a seller with zero delivered orders shows a fabricated 100%
+--       on-time rate, since non-delivered orders default to is_late=0.
+--       125 sellers have zero delivered orders and correctly show
+--       on_time_rate/sla_compliance_bucket = NULL, not a score.
 -- Author: Michael Hoover | github.com/hoover180
 -- =============================================================
 
@@ -48,10 +58,21 @@ seller_order_grain AS (
     SELECT DISTINCT
         oi.seller_id,
         oi.order_id,
-        o.is_late
+        o.is_late,
+        o.is_delivered
     FROM ecommerce_lakehouse.[Silver].order_items AS oi
     INNER JOIN ecommerce_lakehouse.[Silver].orders AS o
         ON oi.order_id = o.order_id
+),
+
+seller_rate AS (
+    SELECT
+        seller_id,
+        COUNT(DISTINCT order_id) AS total_orders,
+        AVG(CASE WHEN is_delivered = 1
+            THEN CAST(1 - is_late AS FLOAT) END) AS on_time_rate
+    FROM seller_order_grain
+    GROUP BY seller_id
 ),
 
 latest_review AS (
@@ -60,33 +81,39 @@ latest_review AS (
         review_score,
         ROW_NUMBER() OVER (
             PARTITION BY order_id
-            ORDER BY review_creation_date DESC
+            ORDER BY review_answer_timestamp DESC
         ) AS rn
     FROM ecommerce_lakehouse.[Silver].order_reviews
 ),
 
-seller_stats AS (
+seller_review AS (
     SELECT
         seller_order_grain.seller_id,
-        COUNT(DISTINCT seller_order_grain.order_id) AS total_orders,
-        AVG(CAST(1 - seller_order_grain.is_late AS FLOAT)) AS on_time_rate,
-        CASE
-            WHEN AVG(CAST(1 - seller_order_grain.is_late AS FLOAT)) < 0.6
-                THEN '0-60%'
-            WHEN AVG(CAST(1 - seller_order_grain.is_late AS FLOAT)) < 0.8
-                THEN '60-80%'
-            WHEN AVG(CAST(1 - seller_order_grain.is_late AS FLOAT)) < 0.9
-                THEN '80-90%'
-            ELSE '90-100%'
-        END AS sla_compliance_bucket,
         AVG(CAST(latest_review.review_score AS FLOAT)) AS avg_review_score
-    FROM
-        seller_order_grain
+    FROM seller_order_grain
     LEFT JOIN latest_review
         ON
             seller_order_grain.order_id = latest_review.order_id
             AND latest_review.rn = 1
     GROUP BY seller_order_grain.seller_id
+),
+
+seller_stats AS (
+    SELECT
+        seller_rate.seller_id,
+        seller_rate.total_orders,
+        seller_rate.on_time_rate,
+        CASE
+            WHEN seller_rate.on_time_rate IS NULL THEN NULL
+            WHEN seller_rate.on_time_rate < 0.6 THEN '0-60%'
+            WHEN seller_rate.on_time_rate < 0.8 THEN '60-80%'
+            WHEN seller_rate.on_time_rate < 0.9 THEN '80-90%'
+            ELSE '90-100%'
+        END AS sla_compliance_bucket,
+        seller_review.avg_review_score
+    FROM seller_rate
+    LEFT JOIN seller_review
+        ON seller_rate.seller_id = seller_review.seller_id
 )
 
 INSERT INTO [Gold].dim_sellers (
