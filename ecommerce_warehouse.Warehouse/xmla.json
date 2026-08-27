@@ -13,6 +13,45 @@
     "sourceQueryCulture": "en-US",
     "tables": [
       {
+        "name": "_Measures",
+        "sourceLineageTag": "[Gold].[_Measures]",
+        "columns": [
+          {
+            "name": "dummy_column",
+            "dataType": "boolean",
+            "sourceColumn": "dummy_column",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "sourceProviderType": "bit",
+            "sourceLineageTag": "dummy_column",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "_Measures",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "Gold"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
+      },
+      {
         "name": "dim_customers",
         "sourceLineageTag": "[Gold].[dim_customers]",
         "columns": [
