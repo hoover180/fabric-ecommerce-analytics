@@ -48,6 +48,115 @@ table _Measures
 
 		changedProperty = DisplayFolder
 
+	/// Count of distinct orders (order_id). Lower than the fact row count (112,650) because fact grain is order-item, not order. Validated: 98,666 unfiltered.
+	measure 'Total Orders' = DISTINCTCOUNT(fact_orders[order_id])
+		formatString: #,0
+		displayFolder: Delivery
+		lineageTag: eff7b9bc-9302-4619-a0f2-ffa4ebadf623
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+	/// Count of distinct orders where is_late = 1.
+	measure 'Late Orders' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(fact_orders[order_id]),
+			    fact_orders[is_late] = 1
+			)
+		formatString: #,0
+		displayFolder: Delivery
+		lineageTag: 6f938d9e-cc69-4aae-947b-7a52faf84980
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+	/// Percentage of delivered orders that arrived on or before the estimated date. Denominator restricted to is_delivered = 1 — non-delivered orders (cancelled, unavailable, in-transit) are correctly excluded rather than implicitly counted as "on-time." Late Orders reused as-is for the numerator since is_late = 1 can only occur on an already-delivered order.
+	measure 'On-Time Delivery Rate' =
+			
+			VAR DeliveredOrders = CALCULATE([Total Orders], fact_orders[is_delivered] = 1)
+			RETURN
+			    DIVIDE(DeliveredOrders - [Late Orders], DeliveredOrders)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Delivery
+		lineageTag: 0f34fa43-f954-49b3-a510-e36331f78a4d
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Description
+
+	/// Average days from order purchase to customer delivery, order-grain corrected. delivery_days is broadcast across item rows; AVERAGEX over distinct order_id prevents multi-item orders from being overweighted.
+	measure 'Avg Delivery Days' =
+			
+			AVERAGEX(
+			    VALUES(fact_orders[order_id]),
+			    CALCULATE(MAX(fact_orders[delivery_days]))
+			)
+		formatString: 0.0
+		displayFolder: Delivery
+		lineageTag: 616e0d98-c8f0-40ed-80a0-39f622823bdb
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	/// Average days late, restricted to late orders only. Pre-filters the iteration table to late orders (~7,827 of 98,666) via CALCULATETABLE before iterating, rather than scanning all orders.
+	measure 'Avg Days Late' =
+			
+			AVERAGEX(
+			    CALCULATETABLE(VALUES(fact_orders[order_id]), fact_orders[is_late] = 1),
+			    CALCULATE(MAX(fact_orders[days_late]))
+			)
+		formatString: 0.0
+		displayFolder: Delivery
+		lineageTag: 381969ea-0a49-4719-8186-b7c96dd5204d
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+	/// Count of distinct orders physically delivered within the selected date period. Activates the inactive delivery_date_key relationship for this measure only — USERELATIONSHIP replaces (not adds to) the default order_date_key propagation for the scope of this calculation.
+	measure 'Orders Delivered' =
+			
+			CALCULATE(
+			    [Total Orders],
+			    USERELATIONSHIP(fact_orders[delivery_date_key], dim_date[date_key]),
+			    NOT(ISBLANK(fact_orders[delivery_date_key]))
+			)
+		formatString: #,0
+		displayFolder: Delivery
+		lineageTag: 2853eb76-5e87-4580-8a95-9927335d1d5b
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
 	column dummy_column
 		dataType: boolean
 		isHidden
