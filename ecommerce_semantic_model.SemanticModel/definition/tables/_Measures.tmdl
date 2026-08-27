@@ -281,6 +281,57 @@ table _Measures
 
 		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
 
+	/// Static count of every seller in the dimension (3,095). Does NOT respond to date/period filters — dim_sellers has no incoming filter path from fact-side filters under this model's single cross-filter direction.
+	measure 'Total Sellers' = DISTINCTCOUNT(dim_sellers[seller_id])
+		formatString: #,0
+		displayFolder: Seller
+		lineageTag: 48b40ecb-d4c7-4ee0-afd1-bced8b423936
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+	/// Average on-time delivery rate across sellers. Reads the pre-aggregated Gold-layer column (dim_sellers.on_time_rate) directly rather than recomputing from fact_orders -- deduplicated to seller-order grain and restricted to delivered orders only in the Gold SQL.
+	/// 
+	/// LIFETIME ATTRIBUTE: does not respond to date/period filters, same reason as Total Sellers.
+	measure 'Seller SLA Compliance' = AVERAGE(dim_sellers[on_time_rate])
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Seller
+		lineageTag: 84cde6a0-0af4-4139-af21-e0ac33b1cf8c
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Description
+
+	/// Percentage of sellers whose lifetime SLA bucket falls below 80% (sla_compliance_bucket = "0-60%" or "60-80%"). Denominator restricted to sellers with a measurable on_time_rate (2,970 of 3,095) rather than all sellers -- the 125 sellers with zero delivered orders can never appear in the numerator bucket set, but would otherwise silently dilute the percentage if left in the denominator too.
+	/// 
+	/// Same lifetime caveat as Seller SLA Compliance: does not respond to date/period filters.
+	measure '% Sellers Below 80% SLA' =
+			
+			DIVIDE(
+			    CALCULATE(DISTINCTCOUNT(dim_sellers[seller_id]), dim_sellers[sla_compliance_bucket] IN {"0-60%", "60-80%"}),
+			    CALCULATE(DISTINCTCOUNT(dim_sellers[seller_id]), NOT ISBLANK(dim_sellers[on_time_rate]))
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Seller
+		lineageTag: c1cf1970-d9c6-46a8-8d79-1509c48faf91
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
 	column dummy_column
 		dataType: boolean
 		isHidden
