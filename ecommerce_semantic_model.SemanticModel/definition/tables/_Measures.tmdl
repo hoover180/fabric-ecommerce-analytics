@@ -157,6 +157,57 @@ table _Measures
 
 		changedProperty = DisplayFolder
 
+	/// Average review score (1-5), order-grain corrected. AVERAGEX over distinct order_id with CALCULATE(MAX(review_score)) prevents multi-item orders from being overweighted, since review_score is order-level data broadcast across item-grain fact_orders rows.
+	measure 'Avg Review Score' =
+			
+			AVERAGEX(
+			    VALUES(fact_orders[order_id]),
+			    CALCULATE(MAX(fact_orders[review_score]))
+			)
+		formatString: 0.00
+		displayFolder: Quality
+		lineageTag: 8fdc023a-3eb7-43c3-915a-8adcde883e62
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+	/// Avg Review Score filtered to delivered orders only. Deliberate exception to the general "include all statuses" policy — satisfaction is a delivery-outcome question, not a revenue-inclusion question.
+	measure 'Avg Review Score - Delivered' =
+			
+			CALCULATE([Avg Review Score], fact_orders[order_status] = "delivered")
+		formatString: 0.00
+		displayFolder: Delivery
+		lineageTag: 7cb32c49-67f0-4508-99f4-85453206eb05
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Description
+
+	/// Trailing 3-month average review score, ending on the last date in the current filter context. Purchase-dated (uses the active order_date_key relationship) — "orders placed in the last 3 months," not "reviews received in the last 3 months."
+	measure 'Review Score Rolling 3M' =
+			
+			CALCULATE(
+			    [Avg Review Score],
+			    DATESINPERIOD(dim_date[full_date], LASTDATE(dim_date[full_date]), -3, MONTH)
+			)
+		formatString: 0.00
+		lineageTag: 18f76cf9-ecbd-455b-b9fd-66d2c0fa39f3
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
 	column dummy_column
 		dataType: boolean
 		isHidden
