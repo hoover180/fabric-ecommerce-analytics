@@ -69,8 +69,10 @@ seller_rate AS (
     SELECT
         seller_id,
         COUNT(DISTINCT order_id) AS total_orders,
-        AVG(CASE WHEN is_delivered = 1
-            THEN CAST(1 - is_late AS FLOAT) END) AS on_time_rate
+        AVG(CASE
+            WHEN is_delivered = 1
+                THEN CAST(1 - is_late AS FLOAT)
+        END) AS on_time_rate
     FROM seller_order_grain
     GROUP BY seller_id
 ),
