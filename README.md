@@ -64,7 +64,7 @@ Orchestrated via a Data Factory pipeline (Notebook → Validation → Dataflow �
 - [x] Phase 2 — Silver layer (Dataflows Gen2, PySpark validation)
 - [x] Phase 3 — Gold layer (T-SQL star schema, Kimball modeling)
 - [x] Phase 4 — Orchestration pipeline, fail-fast validation gates, incremental loading
-- [ ] Phase 5 — Semantic Model, Direct Lake, DAX library
+- [x] Phase 5 — Semantic Model, Direct Lake, DAX library
 - [ ] Phase 6 — Power BI report (3 pages, `.pbip` format)
 - [ ] Phase 7 — Export, README final, executive memo, publish
 
