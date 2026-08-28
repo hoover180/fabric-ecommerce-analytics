@@ -4,10 +4,13 @@ table fact_orders
 
 	column order_item_key
 		dataType: string
+		isHidden
 		lineageTag: 570cb41f-3da2-40f9-b6da-b620cfe207f4
 		sourceLineageTag: order_item_key
 		summarizeBy: none
 		sourceColumn: order_item_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -32,58 +35,76 @@ table fact_orders
 
 	column customer_key
 		dataType: string
+		isHidden
 		lineageTag: 6169192c-28f2-4c9f-85b2-16fcf52d48ff
 		sourceLineageTag: customer_key
 		summarizeBy: none
 		sourceColumn: customer_key
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column seller_key
 		dataType: string
+		isHidden
 		lineageTag: bfb6d2e2-e841-47f5-ba50-9a4618d85802
 		sourceLineageTag: seller_key
 		summarizeBy: none
 		sourceColumn: seller_key
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column product_key
 		dataType: string
+		isHidden
 		lineageTag: b848c120-9fff-4541-8bcb-ba45608f5e6b
 		sourceLineageTag: product_key
 		summarizeBy: none
 		sourceColumn: product_key
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column order_date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 96031834-45f2-4ad0-a9b1-807df4d923f9
 		sourceLineageTag: order_date_key
 		summarizeBy: none
 		sourceColumn: order_date_key
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column delivery_date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 9610ae88-94c9-4e47-92e5-3cb72b302c25
 		sourceLineageTag: delivery_date_key
 		summarizeBy: sum
 		sourceColumn: delivery_date_key
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column estimated_delivery_date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 9d530926-8571-4c41-8f05-e6be9ba45001
 		sourceLineageTag: estimated_delivery_date_key
 		summarizeBy: sum
 		sourceColumn: estimated_delivery_date_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -188,16 +209,22 @@ table fact_orders
 		sourceLineageTag: days_late_bucket
 		summarizeBy: none
 		sourceColumn: days_late_bucket
+		sortByColumn: days_late_bucket_sort
+
+		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = Automatic
 
 	column days_late_bucket_sort
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 12ddbf81-8d90-4ca0-bece-095a8543bd00
 		sourceLineageTag: days_late_bucket_sort
 		summarizeBy: sum
 		sourceColumn: days_late_bucket_sort
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 

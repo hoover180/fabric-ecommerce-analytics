@@ -4,10 +4,13 @@ table dim_sellers
 
 	column seller_key
 		dataType: string
+		isHidden
 		lineageTag: 4fbafc34-8b2f-4737-89b7-9d7aefe6beb6
 		sourceLineageTag: seller_key
 		summarizeBy: none
 		sourceColumn: seller_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 

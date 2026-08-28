@@ -5,11 +5,14 @@ table dim_date
 
 	column date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: ec789210-a465-47bf-b5f3-684654ce364f
 		sourceLineageTag: date_key
 		summarizeBy: none
 		sourceColumn: date_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -86,11 +89,14 @@ table dim_date
 
 	column month_sort
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 38bd0217-2a6d-4374-b814-cdc9ff670014
 		sourceLineageTag: month_sort
 		summarizeBy: none
 		sourceColumn: month_sort
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
