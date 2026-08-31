@@ -122,14 +122,14 @@ SELECT
     o.order_status,
     CASE
         WHEN o.days_late IS NULL THEN 'Not Delivered'
-        WHEN o.days_late <= 0 THEN 'On-Time'
+        WHEN o.is_late = 0 THEN 'On-Time'
         WHEN o.days_late <= 3 THEN '1-3 Days Late'
         WHEN o.days_late <= 6 THEN '4-6 Days Late'
         ELSE '7+ Days Late'
     END AS days_late_bucket,
     CASE
         WHEN o.days_late IS NULL THEN -1
-        WHEN o.days_late <= 0 THEN 0
+        WHEN o.is_late = 0 THEN 0
         WHEN o.days_late <= 3 THEN 1
         WHEN o.days_late <= 6 THEN 2
         ELSE 3
