@@ -332,6 +332,41 @@ table _Measures
 
 		changedProperty = Description
 
+	/// Percentage change in Avg Review Score - Delivered versus the immediately preceding lateness bucket (On-Time -> 1-3 Days Late -> 4-6 Days Late -> 7+ Days Late), looked up dynamically via days_late_bucket. Returns a negative value, reflecting the decline. Blank on the On-Time bucket, which has no prior bucket to compare against.
+	measure 'Bucket Drop %' =
+			
+			VAR CurrentScore = [Avg Review Score - Delivered]
+			VAR PreviousBucket =
+			    SWITCH(
+			        SELECTEDVALUE(fact_orders[days_late_bucket]),
+			        "1-3 Days Late", "On-Time",
+			        "4-6 Days Late", "1-3 Days Late",
+			        "7+ Days Late", "4-6 Days Late",
+			        BLANK()
+			    )
+			VAR PreviousScore =
+			    CALCULATE(
+			        [Avg Review Score - Delivered],
+			        REMOVEFILTERS(
+			            fact_orders[days_late_bucket],
+			            fact_orders[days_late_bucket_sort]
+			        ),
+			        fact_orders[days_late_bucket] = PreviousBucket
+			    )
+			RETURN
+			    DIVIDE(CurrentScore - PreviousScore, PreviousScore)
+		formatString: 0%;-0%;0%
+		displayFolder: Delivery
+		lineageTag: 87c63207-65f0-48f2-8b8a-896ff6d86f72
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
 	column dummy_column
 		dataType: boolean
 		isHidden
