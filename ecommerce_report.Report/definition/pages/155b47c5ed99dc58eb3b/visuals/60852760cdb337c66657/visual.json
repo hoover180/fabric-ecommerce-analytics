@@ -3,9 +3,9 @@
   "name": "60852760cdb337c66657",
   "position": {
     "x": 0,
-    "y": 335.3493222106361,
+    "y": 336.15467239527391,
     "z": 1000,
-    "height": 384.40041710114707,
+    "height": 383.5875402792696,
     "width": 1920,
     "tabOrder": 1000
   },
@@ -367,20 +367,6 @@
             }
           ]
         }
-      },
-      {
-        "name": "19e7451fb9ddf0f7baac",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Avg Review Score - Delivered"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }

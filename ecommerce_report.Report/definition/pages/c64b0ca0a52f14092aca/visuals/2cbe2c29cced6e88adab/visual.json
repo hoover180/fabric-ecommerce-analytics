@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
-  "name": "c2024ee291c5ea533191",
+  "name": "2cbe2c29cced6e88adab",
   "position": {
     "x": 958.96885069817392,
     "y": 719.74221267454345,
-    "z": 5000,
+    "z": 3000,
     "height": 360.90225563909775,
     "width": 960,
-    "tabOrder": 5000
+    "tabOrder": 3000
   },
   "visual": {
     "visualType": "textbox",
@@ -30,33 +30,46 @@
               {
                 "textRuns": [
                   {
-                    "value": "Customer satisfaction drops sharply once a delivery is late — ",
+                    "value": "São Paulo and Rio de Janeiro account for the majority ",
                     "textStyle": {
                       "fontSize": "16pt"
                     }
                   },
                   {
-                    "value": "falling 16% in the first 3 days (4.29 → 3.59)",
-                    "textStyle": {
-                      "fontWeight": "bold",
-                      "fontSize": "16pt"
-                    }
-                  },
-                  {
-                    "value": ", followed by ",
-                    "textStyle": {
-                      "fontSize": "16pt"
-                    }
-                  },
-                  {
-                    "value": "another 40% decline in days 4-6 (3.59 → 2.17)",
+                    "value": "(51.8%)",
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "16pt"
                     }
                   },
                   {
-                    "value": " — the steepest incremental decline — before leveling off around 1.73 for deliveries 7+ days late. This suggests the highest-leverage window for intervention is the 3-6 day range, not the earliest signs of lateness",
+                    "value": " of the marketplace's late orders — but disproportionately: ",
+                    "textStyle": {
+                      "fontSize": "16pt"
+                    }
+                  },
+                  {
+                    "value": "RJ contributes 21.3% of late orders on just 12.8% of order volume",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "16pt"
+                    }
+                  },
+                  {
+                    "value": ", while ",
+                    "textStyle": {
+                      "fontSize": "16pt"
+                    }
+                  },
+                  {
+                    "value": "SP's 30.5% late-order share sits well below its 42.0% volume share",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "16pt"
+                    }
+                  },
+                  {
+                    "value": ".",
                     "textStyle": {
                       "fontSize": "16pt"
                     }
@@ -73,20 +86,89 @@
               {
                 "textRuns": [
                   {
-                    "value": "Monthly average delivery time and review score are strongly inversely associated",
+                    "value": "RJ's problem isn't speed — its carrier-transit inconsistency ",
                     "textStyle": {
                       "fontSize": "16pt"
                     }
                   },
                   {
-                    "value": " (r = -0.89)",
+                    "value": "(10.7-day std. dev.)",
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "16pt"
                     }
                   },
                   {
-                    "value": ", indicating that months with longer delivery times consistently experienced lower customer satisfaction.",
+                    "value": " is ",
+                    "textStyle": {
+                      "fontSize": "16pt"
+                    }
+                  },
+                  {
+                    "value": "nearly double São Paulo's (5.7)",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "16pt"
+                    }
+                  },
+                  {
+                    "value": ", despite similar infrastructure. SP handles roughly ",
+                    "textStyle": {
+                      "fontSize": "16pt"
+                    }
+                  },
+                  {
+                    "value": "3× RJ's volume",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "16pt"
+                    }
+                  },
+                  {
+                    "value": " while maintaining the marketplace's most reliable carrier performance.",
+                    "textStyle": {
+                      "fontSize": "16pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "RJ's variance spiked in ",
+                    "textStyle": {
+                      "fontSize": "16pt"
+                    }
+                  },
+                  {
+                    "value": "Feb–Mar 2018",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "16pt"
+                    }
+                  },
+                  {
+                    "value": ", matching ",
+                    "textStyle": {
+                      "fontSize": "16pt"
+                    }
+                  },
+                  {
+                    "value": "the dataset's lowest review-score months",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "16pt"
+                    }
+                  },
+                  {
+                    "value": " — suggesting carrier reliability, rather than delivery speed, may be the stronger improvement opportunity.",
                     "textStyle": {
                       "fontSize": "16pt"
                     }
