@@ -1041,6 +1041,36 @@
                 "value": "Automatic"
               }
             ]
+          },
+          {
+            "name": "order_delivered_carrier_date",
+            "dataType": "dateTime",
+            "sourceColumn": "order_delivered_carrier_date",
+            "formatString": "General Date",
+            "sourceProviderType": "date",
+            "sourceLineageTag": "order_delivered_carrier_date",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "carrier_transit_days",
+            "dataType": "int64",
+            "sourceColumn": "carrier_transit_days",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "carrier_transit_days",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
           }
         ],
         "partitions": [

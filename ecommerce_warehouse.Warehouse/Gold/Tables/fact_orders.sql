@@ -15,6 +15,8 @@ CREATE TABLE [Gold].[fact_orders] (
 	[review_score] smallint NULL, 
 	[delivery_days] int NULL, 
 	[days_late] int NULL, 
+	[order_delivered_carrier_date] date NULL, 
+	[carrier_transit_days] int NULL, 
 	[is_late] smallint NULL, 
 	[is_delivered] smallint NULL, 
 	[order_status] varchar(20) NULL, 
