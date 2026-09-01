@@ -35,12 +35,15 @@ CREATE TABLE [Gold].fact_orders (
     review_score SMALLINT NULL,
     delivery_days INTEGER NULL,
     days_late INTEGER NULL,
+    order_delivered_carrier_date DATE NULL,
+    carrier_transit_days INTEGER NULL,
     is_late SMALLINT NULL,
     is_delivered SMALLINT NULL,
     order_status VARCHAR(20) NULL,
     days_late_bucket VARCHAR(20) NULL,
     days_late_bucket_sort SMALLINT NULL
 );
+GO
 
 WITH latest_review AS (
     SELECT
@@ -75,6 +78,7 @@ INSERT INTO [Gold].fact_orders (
     order_date_key, delivery_date_key, estimated_delivery_date_key,
     price, freight_value, payment_value,
     review_score, delivery_days, days_late,
+    order_delivered_carrier_date, carrier_transit_days,
     is_late, is_delivered, order_status,
     days_late_bucket, days_late_bucket_sort
 )
@@ -117,6 +121,12 @@ SELECT
     CONVERT(SMALLINT, lr.review_score) AS review_score,
     o.delivery_days,
     o.days_late,
+    o.order_delivered_carrier_date,
+    DATEDIFF(
+        MINUTE,
+        o.order_delivered_carrier_date,
+        o.order_delivered_customer_date
+    ) / 1440 AS carrier_transit_days,
     CONVERT(SMALLINT, o.is_late) AS is_late,
     CONVERT(SMALLINT, o.is_delivered) AS is_delivered,
     o.order_status,
