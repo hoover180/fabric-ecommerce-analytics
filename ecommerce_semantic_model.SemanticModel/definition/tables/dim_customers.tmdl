@@ -41,15 +41,6 @@ table dim_customers
 
 		annotation SummarizationSetBy = Automatic
 
-	column customer_state_country
-		dataType: string
-		lineageTag: 9fd2d93b-4ed8-4358-a2bd-8edaa9efacae
-		sourceLineageTag: customer_state_country
-		summarizeBy: none
-		sourceColumn: customer_state_country
-
-		annotation SummarizationSetBy = Automatic
-
 	column geolocation_lat
 		dataType: double
 		lineageTag: e0898a77-d0ec-4089-9bea-61c63a333c39
@@ -71,6 +62,15 @@ table dim_customers
 		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column customer_state_name
+		dataType: string
+		lineageTag: c6d2cc8a-fcf8-43c5-bfeb-5fcedcf3d2d6
+		sourceLineageTag: customer_state_name
+		summarizeBy: none
+		sourceColumn: customer_state_name
+
+		annotation SummarizationSetBy = Automatic
 
 	partition dim_customers = entity
 		mode: directLake

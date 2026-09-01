@@ -112,20 +112,6 @@
             ]
           },
           {
-            "name": "customer_state_country",
-            "dataType": "string",
-            "sourceColumn": "customer_state_country",
-            "sourceProviderType": "varchar",
-            "sourceLineageTag": "customer_state_country",
-            "summarizeBy": "none",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ]
-          },
-          {
             "name": "geolocation_lat",
             "dataType": "double",
             "sourceColumn": "geolocation_lat",
@@ -158,6 +144,20 @@
               {
                 "name": "PBI_FormatHint",
                 "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "customer_state_name",
+            "dataType": "string",
+            "sourceColumn": "customer_state_name",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "customer_state_name",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
               }
             ]
           }
