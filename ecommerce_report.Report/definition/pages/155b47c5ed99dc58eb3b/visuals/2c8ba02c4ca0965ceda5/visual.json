@@ -75,6 +75,29 @@
         }
       ]
     },
+    "syncGroup": {
+      "groupName": "product_category_english",
+      "fieldChanges": true,
+      "filterChanges": true
+    },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "01f2d4f9f6b4407bc109",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_products"
+              }
+            },
+            "Property": "product_category_english"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

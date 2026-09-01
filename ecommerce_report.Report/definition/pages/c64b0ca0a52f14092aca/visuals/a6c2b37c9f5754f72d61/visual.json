@@ -75,6 +75,11 @@
         }
       ]
     },
+    "syncGroup": {
+      "groupName": "product_category_english",
+      "fieldChanges": true,
+      "filterChanges": true
+    },
     "drillFilterOtherVisuals": true
   }
 }
