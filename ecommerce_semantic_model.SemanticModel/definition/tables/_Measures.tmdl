@@ -367,6 +367,25 @@ table _Measures
 
 		changedProperty = DisplayFolder
 
+	/// Standard deviation of carrier transit time (order_delivered_carrier_date to order_delivered_customer_date, computed via DATEDIFF(MINUTE,...)/1440 for true elapsed-day flooring, matching the semantics of delivery_days/days_late rather than DATEDIFF(DAY,...)'s calendar-boundary-crossing count) across distinct orders. STDEVX.P since this measures observed variability across the full order population in context, not a sample estimate. De-fans-out via VALUES(order_id) + CALCULATE(MAX(...)) since carrier_transit_days is order-level, broadcast across item-grain fact_orders rows.
+	measure 'Carrier Transit Std Dev' =
+			
+			STDEVX.P(
+			    VALUES(fact_orders[order_id]),
+			    CALCULATE(MAX(fact_orders[carrier_transit_days]))
+			)
+		formatString: 0.0
+		displayFolder: Delivery
+		lineageTag: e4a21632-0845-4146-b9e6-676e6a4f16dd
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
 	column dummy_column
 		dataType: boolean
 		isHidden

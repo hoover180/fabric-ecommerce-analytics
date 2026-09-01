@@ -228,6 +228,26 @@ table fact_orders
 
 		annotation SummarizationSetBy = Automatic
 
+	column order_delivered_carrier_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: bf61ca87-de8f-432e-b570-f9f83fc6c05e
+		sourceLineageTag: order_delivered_carrier_date
+		summarizeBy: none
+		sourceColumn: order_delivered_carrier_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column carrier_transit_days
+		dataType: int64
+		formatString: 0
+		lineageTag: d85854e3-4d1b-4086-ba6b-72850f4f65a2
+		sourceLineageTag: carrier_transit_days
+		summarizeBy: sum
+		sourceColumn: carrier_transit_days
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_orders = entity
 		mode: directLake
 		source
