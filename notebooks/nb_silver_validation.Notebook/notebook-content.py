@@ -61,14 +61,23 @@ if not geo_passed:
 
 orders_check = spark.table("Silver.orders")
 null_delivery_days = orders_check.filter(F.col("delivery_days").isNull() & orders_check.order_delivered_customer_date.isNotNull()).count()
-log_check("orders", "derived_column_sanity", f"{null_delivery_days} delivered orders with null delivery_days", null_delivery_days == 0)
+delivery_days_passed = null_delivery_days == 0
+log_check("orders", "derived_column_sanity", f"{null_delivery_days} delivered orders with null delivery_days", delivery_days_passed)
+if not delivery_days_passed:
+    all_passed = False
 
 reviews_check = spark.table("Silver.order_reviews")
 invalid_scores = reviews_check.filter(F.col("review_score_valid") == 0).count()
-log_check("order_reviews", "review_score_validity", f"{invalid_scores} invalid review scores", True)
+review_score_passed = invalid_scores == 0
+log_check("order_reviews", "review_score_validity", f"{invalid_scores} invalid review scores", review_score_passed)
+if not review_score_passed:
+    all_passed = False
 
 null_zip_count = spark.table("Silver.customers").filter(F.col("customer_zip_code_prefix").isNull()).count()
-log_check("customers", "zip_completeness", f"{null_zip_count} null customer zip codes", null_zip_count == 0)
+zip_passed = null_zip_count == 0
+log_check("customers", "zip_completeness", f"{null_zip_count} null customer zip codes", zip_passed)
+if not zip_passed:
+    all_passed = False
 
 print(f"\nResult: {'ALL CHECKS PASSED' if all_passed else 'FAILURES DETECTED — review above'}")
 
