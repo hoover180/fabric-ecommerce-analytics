@@ -16,20 +16,26 @@ table fact_orders
 
 	column order_id
 		dataType: string
+		isHidden
 		lineageTag: 2bc6e82d-f2ea-479b-8b76-d484747bd13b
 		sourceLineageTag: order_id
 		summarizeBy: none
 		sourceColumn: order_id
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column order_item_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 4472d864-2b33-4e79-a8cf-1d3c1a571fd8
 		sourceLineageTag: order_item_id
 		summarizeBy: sum
 		sourceColumn: order_item_id
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -110,11 +116,14 @@ table fact_orders
 
 	column price
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: dc0f0b12-438b-4caf-ab41-1c5e99f366ed
 		sourceLineageTag: price
 		summarizeBy: sum
 		sourceColumn: price
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -122,11 +131,14 @@ table fact_orders
 
 	column freight_value
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 86f9dd8f-63a6-4815-bc7f-7e4b24d137e5
 		sourceLineageTag: freight_value
 		summarizeBy: sum
 		sourceColumn: freight_value
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -134,11 +146,14 @@ table fact_orders
 
 	column payment_value
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 022eaaa3-ffca-4482-b10e-976ba4ad3664
 		sourceLineageTag: payment_value
 		summarizeBy: sum
 		sourceColumn: payment_value
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -146,60 +161,78 @@ table fact_orders
 
 	column review_score
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 1a812255-2ea6-486b-97de-d713f06ab6ab
 		sourceLineageTag: review_score
 		summarizeBy: sum
 		sourceColumn: review_score
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column delivery_days
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 5e617801-ba7b-4064-bb80-8629e0388163
 		sourceLineageTag: delivery_days
 		summarizeBy: sum
 		sourceColumn: delivery_days
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column days_late
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: a7c2c73a-ed95-475a-b968-aeb861f2c162
 		sourceLineageTag: days_late
 		summarizeBy: sum
 		sourceColumn: days_late
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column is_late
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: fe049e95-8fc9-4415-8002-a7382c5d2c57
 		sourceLineageTag: is_late
 		summarizeBy: sum
 		sourceColumn: is_late
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column is_delivered
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: e2277186-cf99-4b07-9a58-ed3b28587abb
 		sourceLineageTag: is_delivered
 		summarizeBy: sum
 		sourceColumn: is_delivered
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column order_status
 		dataType: string
+		isHidden
 		lineageTag: 782df388-b805-4179-9657-cf00b668d6c5
 		sourceLineageTag: order_status
 		summarizeBy: none
 		sourceColumn: order_status
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -230,21 +263,27 @@ table fact_orders
 
 	column order_delivered_carrier_date
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: bf61ca87-de8f-432e-b570-f9f83fc6c05e
 		sourceLineageTag: order_delivered_carrier_date
 		summarizeBy: none
 		sourceColumn: order_delivered_carrier_date
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column carrier_transit_days
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: d85854e3-4d1b-4086-ba6b-72850f4f65a2
 		sourceLineageTag: carrier_transit_days
 		summarizeBy: sum
 		sourceColumn: carrier_transit_days
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
