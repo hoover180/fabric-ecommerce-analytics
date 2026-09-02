@@ -72,7 +72,9 @@ print(f"Rows to load (incremental): {rows_loaded}")
 try:
     df_filtered.write.format("delta").mode("append").save(DELTA_PATH)
     register_delta_table(TABLE_NAME, DELTA_PATH, schema="Bronze")
-    update_watermark(TABLE_NAME, date.today(), run_id)
+    if rows_loaded > 0:
+        new_watermark = df_filtered.agg(F.max(F.to_date(F.col(TIMESTAMP_COL)))).collect()[0][0]
+        update_watermark(TABLE_NAME, new_watermark, run_id)
     log_pipeline_run(run_id, TABLE_NAME, SOURCE_FILE, rows_loaded, "success")
     print(f"Success — {rows_loaded} rows loaded.")
 except Exception as e:

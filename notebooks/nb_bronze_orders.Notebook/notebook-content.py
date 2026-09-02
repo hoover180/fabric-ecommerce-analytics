@@ -56,6 +56,8 @@ print(f"Run ID: {run_id} | Table: {TABLE_NAME} | Watermark: {watermark_date}")
 df_raw = spark.read.option("header", True).option("inferSchema", True).csv(SOURCE_FILE)
 print(f"Raw row count: {df_raw.count()}")
 
+from pyspark.sql import Row
+
 # Fail fast on schema drift before writing anything
 drift   = [c for c in df_raw.columns if c not in EXPECTED_COLUMNS]
 missing = [c for c in EXPECTED_COLUMNS if c not in df_raw.columns]
@@ -72,7 +74,9 @@ print(f"Rows to load (incremental): {rows_loaded}")
 try:
     df_filtered.write.format("delta").mode("append").save(DELTA_PATH)
     register_delta_table(TABLE_NAME, DELTA_PATH, schema="Bronze")
-    update_watermark(TABLE_NAME, date.today(), run_id)
+    if rows_loaded > 0:
+        new_watermark = df_filtered.agg(F.max(F.to_date(F.col(TIMESTAMP_COL)))).collect()[0][0]
+        update_watermark(TABLE_NAME, new_watermark, run_id)
     log_pipeline_run(run_id, TABLE_NAME, SOURCE_FILE, rows_loaded, "success")
     print(f"Success — {rows_loaded} rows loaded.")
 except Exception as e:

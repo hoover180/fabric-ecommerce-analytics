@@ -64,7 +64,6 @@ rows_loaded = df_raw.count()
 try:
     df_raw.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save(DELTA_PATH)
     register_delta_table(TABLE_NAME, DELTA_PATH, schema="Bronze")
-    update_watermark(TABLE_NAME, date.today(), run_id)
     log_pipeline_run(run_id, TABLE_NAME, SOURCE_FILE, rows_loaded, "success")
     print(f"Success — {rows_loaded} rows loaded.")
 except Exception as e:
