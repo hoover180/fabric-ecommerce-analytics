@@ -39,8 +39,9 @@
 # Tolerance is set tight (0.1%) since these are static, fully-known source
 # files with documented true row counts — any variance beyond rounding/
 # platform noise indicates a real parsing or load issue worth investigating,
-# not something to tolerate. This notebook reports only; wiring it into an
-# enforced pipeline gate is Phase 4 work, once a pipeline exists to gate.
+# not something to tolerate. Results feed the enforced Bronze Validation
+# Gate in pl_ecommerce_orchestration — a failure here halts the pipeline
+# before Silver runs.
 
 from pyspark.sql import functions as F
 from pyspark.sql import Row
