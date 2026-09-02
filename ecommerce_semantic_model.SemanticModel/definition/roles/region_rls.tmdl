@@ -5,3 +5,5 @@ role region_rls
 
 	annotation PBI_Id = 3f7eca0cac134ee28739a8340a270c20
 
+	annotation Note = "Pattern demonstration, not production security. Filters directly on USERPRINCIPALNAME() = state — a real UPN will never equal a state code. A production version would join through a security-mapping table (user email -> authorized state). Test as Role unavailable due to SSO limitation in trial workspace; filter logic verified via DAX query view instead."
+
